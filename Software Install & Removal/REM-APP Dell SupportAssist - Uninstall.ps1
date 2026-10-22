@@ -4,10 +4,10 @@
 .SYNOPSIS
     Removes Dell Support Assist applications from the system. If ran without parameters, it will report on the Dell Support Assist applications on the system.
 .DESCRIPTION
-    Removes Dell Support Assist applications from the system. If ran without parameters, it will report on the Dell Support Assist applications on the system.
+    Removes all Dell Support Assist applications from the system. Runs with no script variables: it force-closes SupportAssist processes and removes every supported SupportAssist application by default.
 
 .EXAMPLE
-    -RemoveAll
+    (No Parameters)
 
     [Info] Found 4 Dell SupportAssist application(s):
 
@@ -71,20 +71,22 @@
 
 [CmdletBinding()]
 param (
+    # Defaults remove everything with no script variables. Pass -RemoveAll:$false
+    # plus a specific -Remove* switch to remove one application only.
     [Parameter()]
-    [switch]$ForceCloseBeforeUninstall = [System.Convert]::ToBoolean($env:ForceCloseBeforeUninstall),
+    [switch]$ForceCloseBeforeUninstall = $true,
     [Parameter()]
-    [switch]$RemoveAll = [System.Convert]::ToBoolean($env:RemoveAll),
+    [switch]$RemoveAll = $true,
     [Parameter()]
-    [switch]$RemoveDellSupportAssistForBusiness = [System.Convert]::ToBoolean($env:RemoveDellSupportAssistForBusiness),
+    [switch]$RemoveDellSupportAssistForBusiness,
     [Parameter()]
-    [switch]$RemoveDellSupportAssistForHome = [System.Convert]::ToBoolean($env:RemoveDellSupportAssistForHome),
+    [switch]$RemoveDellSupportAssistForHome,
     [Parameter()]
-    [switch]$RemoveDellSupportAssistAppxPackages = [System.Convert]::ToBoolean($env:RemoveDellSupportAssistAppxPackages),
+    [switch]$RemoveDellSupportAssistAppxPackages,
     [Parameter()]
-    [switch]$RemoveDellSupportAssistOSRecoveryPlugin = [System.Convert]::ToBoolean($env:RemoveDellSupportAssistOSRecoveryPlugin),
+    [switch]$RemoveDellSupportAssistOSRecoveryPlugin,
     [Parameter()]
-    [switch]$RemoveDellUpdateSupportAssistUpdatePlugin = [System.Convert]::ToBoolean($env:RemoveDellUpdateSupportAssistUpdatePlugin)
+    [switch]$RemoveDellUpdateSupportAssistUpdatePlugin
 )
 
 begin {

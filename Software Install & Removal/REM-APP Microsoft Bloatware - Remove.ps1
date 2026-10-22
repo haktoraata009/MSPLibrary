@@ -4,9 +4,9 @@
 .SYNOPSIS
     Removes common bloatware that is often pre-installed on a PC.
 .DESCRIPTION
-    Removes common bloatware that is often pre-installed on a PC.
+    Removes common bloatware that is often pre-installed on a PC. Runs with no script variables and removes the full built-in list below, for all users and from the provisioned image.
 .EXAMPLE
-    -AppsToRemove "Amazon.com.Amazon, AmazonVideo.PrimeVideo, Clipchamp.Clipchamp, Disney.37853FC22B2CE, DropboxInc.Dropbox, Facebook.Facebook, Facebook.InstagramBeta, king.com.BubbleWitch3Saga, king.com.CandyCrushSaga, king.com.CandyCrushSodaSaga, 5A894077.McAfeeSecurity, 4DF9E0F8.Netflix, SpotifyAB.SpotifyMusic, BytedancePte.Ltd.TikTok, 5319275A.WhatsAppDesktop"
+    (No Parameters - same as) -AppsToRemove "Amazon.com.Amazon, AmazonVideo.PrimeVideo, Clipchamp.Clipchamp, Disney.37853FC22B2CE, DropboxInc.Dropbox, Facebook.Facebook, Facebook.InstagramBeta, king.com.BubbleWitch3Saga, king.com.CandyCrushSaga, king.com.CandyCrushSodaSaga, 5A894077.McAfeeSecurity, 4DF9E0F8.Netflix, SpotifyAB.SpotifyMusic, BytedancePte.Ltd.TikTok, 5319275A.WhatsAppDesktop"
     
     [Warn] Amazon.com.Amazon is not installed!
     Attempting to remove AmazonVideo.PrimeVideo...
@@ -56,9 +56,8 @@ param (
 )
 
 begin {
-    # Replace parameters with dynamic script variables.
-    if ($env:appsToRemove -and $env:appsToRemove -notlike "null") { $AppsToRemove = $env:appsToRemove }
-    if ($env:overrideWithCustomFieldName -and $env:overrideWithCustomFieldName -notlike "null") { $OverrideWithCustomField = $env:overrideWithCustomFieldName }
+    # No script variables: always removes the built-in $AppsToRemove list.
+    # To change the list, edit the default in param() above.
 
     $AppList = New-Object System.Collections.Generic.List[string]
 
