@@ -1,0 +1,2 @@
+New-Item -Path HKCU:\software\microsoft\office\16.0\common\autocorrect
+New-ItemProperty -Path "HKCU:\software\microsoft\office\16.0\common\autocorrect" -Name "replacetext" -Value "0" -PropertyType DWord
