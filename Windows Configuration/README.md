@@ -4,28 +4,33 @@ Workstation baseline settings: power, taskbar, wallpaper, screensaver, long path
 
 ## Before you run
 
-- Run as System to apply to all users. Some scripts apply to the current user only when run as that user.
-- Rename Computer needs a restart, and domain credentials for domain-joined devices.
+- Run as System to apply to all users. Scripts marked Run as User apply to the signed-in user.
+- CFG-SYS Computer - Rename needs a restart, and domain credentials for domain-joined devices.
+- Read the script and understand the expected outcome before running it, even when the table says it is safe.
 
 ## Scripts
 
-**Script variables** are the NinjaOne script variables the script reads as `$env:<name>`. Create them with the same names in the NinjaOne script editor, or pass the matching parameter when running locally.
+Names follow the [naming convention](../README.md#naming-convention): `<TYPE>-<AREA> <Subject> - <Action>`.
 
-**Changes device?** Yes = the script can change settings, files, services or restart the device. No = read-only report or check. Admin PC = runs against a Microsoft 365 or Entra tenant from an admin workstation. This is worked out from the code, so read the script before running it.
+- **Function** - Monitor / Alert, Report (read-only), Config change, Repair / Fix, Install / Update, Uninstall, Tenant admin (M365) or Intune detection.
+- **Run as** - System (through the RMM), User (signed-in user's context), Admin PC (admin workstation signed in to the tenant), or the server role named.
+- **Reboot** - No; Optional (a script variable can restart the device); Needed to apply (change takes effect after the next restart); Restarts device (the script restarts it).
+- **Caution** - what can go wrong or what users will notice.
+- **Script variables** - NinjaOne script variables the script reads as `$env:<name>`. Create them with the same names in the NinjaOne script editor, or pass the matching parameter when running locally.
 
 <!-- scripts:start -->
-| Script | What it does | Script variables | Changes device? |
-|---|---|---|---|
-| [Active Power Plan Report](Active%20Power%20Plan%20Report.ps1) | Reports the active power plan and active power settings. | `powerPlanCustomFieldName`, `powerSettingsCustomFieldName` | No |
-| [Add or Remove Trusted Site](Add%20or%20Remove%20Trusted%20Site.ps1) | Manages trusted sites in Internet Explorer and Edge by adding, removing, or listing HTTPS URLs in specified trust zones. | `action`, `trustZone`, `url`, `Username` | Yes |
-| [Change Screensaver](Change%20Screensaver.ps1) | Change the screensaver settings for all user profiles on a Windows machine. | `forceReboot`, `onResumeEnterPassword`, `photosDirectoryPath`, `selectScreensaver`, `textFor3DText`, `Username` +1 more | Yes |
-| [Configure Windows 11 Taskbar Settings](Configure%20Windows%2011%20Taskbar%20Settings.ps1) | Configure common Windows 11 taskbar settings for all users (when run as 'System') or just the current user (when run as 'Current Logged On User'). | `autoHideTaskbar`, `restartExplorer`, `searchButton`, `taskbarAlignment`, `taskViewButton`, `widgetsButton` | Yes |
-| [Enable Long File Paths](Enable%20Long%20File%20Paths.ps1) | Enables long file paths on Windows. | `reboot` | Yes |
-| [Enable Optional Windows Features on Workstations](Enable%20Optional%20Windows%20Features%20on%20Workstations.ps1) | Enable Optional Windows Features on Workstations. | `featureNameToInstall`, `getFeatureNameList`, `installParentOrDefaultFeatures`, `restartIfNeeded` | Yes |
-| [Enable or Disable Fast Startup](Enable%20or%20Disable%20Fast%20Startup.ps1) | Enable or Disable Windows Fast Boot, also known as Hiberboot or Fast Startup. | `action` | Yes |
-| [Enable or Disable Start Menu Power Options](Enable%20or%20Disable%20Start%20Menu%20Power%20Options.ps1) | Enable (show) or disable (hide) the shutdown, restart, sleep, and hibernate options in the start menu power options in Windows. | `Action`, `computername`, `hibernate`, `restart`, `shutdown`, `sleep` | Yes |
-| [Rename Computer](Rename%20Computer.ps1) | Renames domain-joined or non-domain-joined computers. | `computername`, `domainAdminPasswordCustomField`, `domainAdminUsername`, `newComputerName`, `reboot` | Yes |
-| [Restore RightClickMenu](Restore%20RightClickMenu.ps1) | Restores the classic Windows 10 right-click menu on Windows 11 for the current user (runs once). | - | Yes |
-| [Set Computer Branding - Windows](Set%20Computer%20Branding%20-%20Windows.ps1) | Set the support contact and website information for a device as well as the model and manufacturer. | `Manufacturer`, `Model`, `removeIfBlank`, `SupportHours`, `SupportPhone`, `SupportURL` | Yes |
-| [Set Desktop Wallpaper](Set%20Desktop%20Wallpaper.ps1) | This sets the desktop background for all existing users (if run as System) or the currently logged-in user (if run as 'Current Logged on User'). | `AppData`, `directoryToStoreWallpaperIn`, `replaceTranscodedWallpaperFile`, `restartExplorer`, `Username`, `wallpaperDisplayMode` +1 more | Yes |
+| Script | What it does | Function | Run as | Reboot | Caution | Script variables |
+|---|---|---|---|---|---|---|
+| [CFG-SYS Branding - Set Support Info](CFG-SYS%20Branding%20-%20Set%20Support%20Info.ps1) | Sets support contact details shown in Windows Settings. | Config change | System | No | - | `Manufacturer`, `Model`, `removeIfBlank`, `SupportHours`, `SupportPhone`, `SupportURL` |
+| [CFG-SYS Computer - Rename](CFG-SYS%20Computer%20-%20Rename.ps1) | Renames the computer, including domain-joined devices. | Config change | System | Needed to apply | ⚠️ Needs a restart. Domain devices need domain credentials. | `computername`, `domainAdminPasswordCustomField`, `domainAdminUsername`, `newComputerName`, `reboot` |
+| [CFG-SYS Context Menu - Restore Classic](CFG-SYS%20Context%20Menu%20-%20Restore%20Classic.ps1) | Brings back the full right-click menu on Windows 11. | Config change | User | No | ⚠️ Applies after Explorer restarts or the user signs in again. | - |
+| [CFG-SYS Fast Startup - Enable or Disable](CFG-SYS%20Fast%20Startup%20-%20Enable%20or%20Disable.ps1) | Turns Fast Startup on or off. | Config change | System | No | - | `action` |
+| [CFG-SYS Long File Paths - Enable](CFG-SYS%20Long%20File%20Paths%20-%20Enable.ps1) | Allows file paths longer than 260 characters. | Config change | System | Optional | - | `reboot` |
+| [CFG-SYS Optional Features - Enable](CFG-SYS%20Optional%20Features%20-%20Enable.ps1) | Turns on selected optional Windows features. | Config change | System | Optional | - | `featureNameToInstall`, `getFeatureNameList`, `installParentOrDefaultFeatures`, `restartIfNeeded` |
+| [CFG-SYS Screensaver - Set](CFG-SYS%20Screensaver%20-%20Set.ps1) | Sets the screensaver and timeout for all users. | Config change | System | No | - | `forceReboot`, `onResumeEnterPassword`, `photosDirectoryPath`, `selectScreensaver`, `textFor3DText`, `Username` +1 more |
+| [CFG-SYS Start Menu Power Options - Enable or Disable](CFG-SYS%20Start%20Menu%20Power%20Options%20-%20Enable%20or%20Disable.ps1) | Shows or hides shut down, restart, sleep and hibernate in the Start menu. | Config change | System | No | - | `Action`, `computername`, `hibernate`, `restart`, `shutdown`, `sleep` |
+| [CFG-SYS Taskbar - Windows 11 Settings](CFG-SYS%20Taskbar%20-%20Windows%2011%20Settings.ps1) | Sets Windows 11 taskbar options such as alignment, search and widgets. | Config change | System | No | ⚠️ Can restart Explorer; the screen flickers. | `autoHideTaskbar`, `restartExplorer`, `searchButton`, `taskbarAlignment`, `taskViewButton`, `widgetsButton` |
+| [CFG-SYS Trusted Sites - Add or Remove](CFG-SYS%20Trusted%20Sites%20-%20Add%20or%20Remove.ps1) | Adds, removes or lists trusted sites for Edge and Internet Explorer. | Config change | System | No | ⚠️ Trusted sites get relaxed security settings. | `action`, `trustZone`, `url`, `Username` |
+| [CFG-SYS Wallpaper - Set](CFG-SYS%20Wallpaper%20-%20Set.ps1) | Sets the desktop wallpaper for all users. | Config change | System | No | ⚠️ Can restart Explorer; the screen flickers. | `AppData`, `directoryToStoreWallpaperIn`, `replaceTranscodedWallpaperFile`, `restartExplorer`, `Username`, `wallpaperDisplayMode` +1 more |
+| [RPT-SYS Power Plan - Report](RPT-SYS%20Power%20Plan%20-%20Report.ps1) | Reports the active power plan and its settings. | Report (read-only) | System | No | - | `powerPlanCustomFieldName`, `powerSettingsCustomFieldName` |
 <!-- scripts:end -->

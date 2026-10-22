@@ -1,33 +1,35 @@
 # Server
 
-Windows Server, RDS/FSLogix, SQL and Intune Graph scripts.
+Windows Server, RDS/FSLogix and SQL scripts.
 
 ## Before you run
 
-- Run on the server named in each script, or from an admin workstation for the Graph and Intune scripts.
+- Run on the server named in each script.
 - FSLogix and UPD scripts delete or resize profiles. Make sure users are logged off and you have a backup.
 - File server, share and domain names are placeholders (FILESERVER, contoso.local). Set your own.
+- Read the script and understand the expected outcome before running it, even when the table says it is safe.
 
 ## Scripts
 
-**Script variables** are the NinjaOne script variables the script reads as `$env:<name>`. Create them with the same names in the NinjaOne script editor, or pass the matching parameter when running locally.
+Names follow the [naming convention](../README.md#naming-convention): `<TYPE>-<AREA> <Subject> - <Action>`.
 
-**Changes device?** Yes = the script can change settings, files, services or restart the device. No = read-only report or check. Admin PC = runs against a Microsoft 365 or Entra tenant from an admin workstation. This is worked out from the code, so read the script before running it.
+- **Function** - Monitor / Alert, Report (read-only), Config change, Repair / Fix, Install / Update, Uninstall, Tenant admin (M365) or Intune detection.
+- **Run as** - System (through the RMM), User (signed-in user's context), Admin PC (admin workstation signed in to the tenant), or the server role named.
+- **Reboot** - No; Optional (a script variable can restart the device); Needed to apply (change takes effect after the next restart); Restarts device (the script restarts it).
+- **Caution** - what can go wrong or what users will notice.
+- **Script variables** - NinjaOne script variables the script reads as `$env:<name>`. Create them with the same names in the NinjaOne script editor, or pass the matching parameter when running locally.
 
 <!-- scripts:start -->
-| Script | What it does | Script variables | Changes device? |
-|---|---|---|---|
-| [Application_Get_Assign](Application_Get_Assign.ps1) | Lists Intune apps and their group assignments via the Graph REST API (Microsoft Intune sample, MIT licence). | - | Admin PC |
-| [AzureMfaNpsExtnConfigSetup](AzureMfaNpsExtnConfigSetup.ps1) | Microsoft setup script for the Azure MFA NPS extension: creates the certificate and registers it with the tenant. | - | Yes |
-| [Collect MSSQL Instances](Collect%20MSSQL%20Instances.ps1) | Gets a list of MSSQL server instances and optionally save the results to a custom field. | `multilineCustomFieldName`, `WysiwygCustomFieldName` | No |
-| [Convert-UPDtoFSLogix](Convert-UPDtoFSLogix.ps1) | Converts RDS User Profile Disks (UPD VHDX) into FSLogix profile container format and folder structure. | `userdomain` | Yes |
-| [FSLogixCleanup](FSLogixCleanup.ps1) | Clears FSLogix session keys, FSLogix profile registry entries and local profile folders on a session host. | - | Yes |
-| [Get Folder Permissions](Get%20Folder%20Permissions.ps1) | Exports NTFS permissions for every subfolder of a path to CSV. Set the folder path first. | - | No |
-| [Get-AppAssignment](Get-AppAssignment.ps1) | Lists all Intune apps and the groups each is assigned to via Microsoft Graph. | - | Admin PC |
-| [Install-ITPMBaselineCAPolicies](Install-ITPMBaselineCAPolicies.ps1) | Variant of the baseline Conditional Access policy installer with the office IP named location excluded from MFA policies (AzureAD module). | - | Admin PC |
-| [Monitor SQL Server](Monitor%20SQL%20Server.ps1) | Monitors the database services, free space of the drive where the databases reside, and the disk latency of a SQL server. | `diskFreeSpaceThreshold`, `diskLatencyThreshold`, `requireAgentService`, `Username` | No |
-| [Resize-UserProfileDisk](Resize-UserProfileDisk.ps1) | Expands an RDS User Profile Disk (VHDX) and its partition, with logging. | - | Yes |
-| [Script-ConnectionLogging](Script-ConnectionLogging.ps1) | Logs RDS user session connections (user, client name, IP) to a CSV share for auditing. | - | No |
-| [Server configuration](Server%20configuration.ps1) | Base server build: installs Telnet client, sets the High Performance power plan and adjusts DEP. | - | Yes |
-| [WindowsOSBaselineConfiguration](WindowsOSBaselineConfiguration.ps1) | Base Windows build: installs Telnet client, sets the High Performance power plan and adjusts DEP. | - | Yes |
+| Script | What it does | Function | Run as | Reboot | Caution | Script variables |
+|---|---|---|---|---|---|---|
+| [CFG-SRV NPS - Azure MFA Extension Setup](CFG-SRV%20NPS%20-%20Azure%20MFA%20Extension%20Setup.ps1) | Microsoft setup for the Azure MFA extension on an NPS (RADIUS) server. | Config change | NPS server | No | ⚠️ Affects VPN and Wi-Fi sign-ins through NPS. Plan a change window. | - |
+| [CFG-SRV Server - Baseline Configuration (v2)](CFG-SRV%20Server%20-%20Baseline%20Configuration%20%28v2%29.ps1) | Near-identical copy of the base server build script. | Config change | Server | Needed to apply | ⚠️ DEP change needs a restart. | - |
+| [CFG-SRV Server - Baseline Configuration](CFG-SRV%20Server%20-%20Baseline%20Configuration.ps1) | Base server build: Telnet client, High Performance power plan and DEP setting. | Config change | Server | Needed to apply | ⚠️ DEP change needs a restart. | - |
+| [FIX-SRV FSLogix - Convert UPD to FSLogix](FIX-SRV%20FSLogix%20-%20Convert%20UPD%20to%20FSLogix.ps1) | Converts RDS User Profile Disks to FSLogix profile containers. | Repair / Fix | Server | No | ⚠️ Back up profiles first. Users must be logged off. | `userdomain` |
+| [FIX-SRV FSLogix - Profile Cleanup](FIX-SRV%20FSLogix%20-%20Profile%20Cleanup.ps1) | Clears FSLogix sessions and local profile copies on a session host. | Repair / Fix | Server | No | ⚠️ Deletes local profiles. Users must be logged off. | - |
+| [FIX-SRV UPD - Resize Profile Disk](FIX-SRV%20UPD%20-%20Resize%20Profile%20Disk.ps1) | Makes an RDS User Profile Disk bigger. | Repair / Fix | Server | No | ⚠️ Back up the disk first. The user must be logged off. | - |
+| [MON-SRV SQL - Health Monitor](MON-SRV%20SQL%20-%20Health%20Monitor.ps1) | Alerts on SQL services, database drive space and disk latency. | Monitor / Alert | Server | No | - | `diskFreeSpaceThreshold`, `diskLatencyThreshold`, `requireAgentService`, `Username` |
+| [RPT-SRV NTFS - Folder Permissions Report](RPT-SRV%20NTFS%20-%20Folder%20Permissions%20Report.ps1) | Exports folder permissions under a path to CSV. | Report (read-only) | Server | No | ⚠️ Set the folder path first. | - |
+| [RPT-SRV RDS - Connection Logging](RPT-SRV%20RDS%20-%20Connection%20Logging.ps1) | Logs RDS user connections (user, client name, IP) to a share. | Report (read-only) | Server | No | - | - |
+| [RPT-SRV SQL - Instances](RPT-SRV%20SQL%20-%20Instances.ps1) | Lists SQL Server instances on the server. | Report (read-only) | Server | No | - | `multilineCustomFieldName`, `WysiwygCustomFieldName` |
 <!-- scripts:end -->
