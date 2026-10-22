@@ -1,0 +1,1 @@
+get-aduser -filter * -Properties * | select displayname, city, company, department, EmailAddress, telephonenumber | export-csv -path c:\temp\export-all.csv
