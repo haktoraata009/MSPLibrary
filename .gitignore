@@ -1,0 +1,62 @@
+# Only scripts and READMEs belong here. No documents, exports, samples or images.
+*.docx
+*.xlsx
+*.pdf
+*.csv
+*.pptx
+*.zip
+*.7z
+*.txt
+*.log
+*.lnk
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.ico
+*.svg
+
+# Kept local on purpose
+Halo Report SQL/
+InstalledScriptInfos/
+_publish/
+
+# Credentials and environment files
+.env
+.env.*
+*.env
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+*.crt
+*.jks
+*.keystore
+*.kdbx
+*.publishsettings
+id_rsa*
+id_ed25519*
+*.ppk
+keys/
+certs/
+secrets.*
+*secret*.json
+*credential*.json
+credentials*
+service-account*.json
+local.settings.json
+*.token
+token.json
+
+# OS and editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+**/.claude/settings.local.json
