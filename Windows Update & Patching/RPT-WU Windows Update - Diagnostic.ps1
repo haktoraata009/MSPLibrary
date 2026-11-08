@@ -33,16 +33,14 @@ PARAMETER: -ResultsCustomField WindowsUpdate
 
 [CmdletBinding()]
 param (
-    [int]$Days = 30,
-    [string]$ResultsCustomField = "windowsUpdateDiagnostic"
+    [int]$Days = 30
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $ResultsCustomField = "windowsUpdateDiagnostic"   # Multi-line custom field written by this script
     if ($env:Days) {
         $Days = $env:Days
-    }
-    if ($env:resultscustomfield -and $env:resultscustomfield -notlike "null") {
-        $ResultsCustomField = $env:resultscustomfield
     }
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()

@@ -23,5 +23,5 @@ Names follow the [naming convention](../README.md#naming-convention): `<TYPE>-<A
 |---|---|---|---|---|---|---|
 | [CFG-HW Bluetooth - Unpair Devices](CFG-HW%20Bluetooth%20-%20Unpair%20Devices.ps1) | Unpairs Bluetooth devices (connected ones by default). | Config change | System | No | ⚠️ Users must pair devices again. | `UnpairAllDevices` |
 | [CFG-HW Printer - Add Network Printer](CFG-HW%20Printer%20-%20Add%20Network%20Printer.ps1) | Adds or removes a shared network printer for every user on the device. | Config change | System | No | ⚠️ Restarts the print spooler. | `ComputerName`, `forceRestart`, `printerSharePath`, `removePrinter` |
-| [FIX-HW Printer - Clear Print Queue](FIX-HW%20Printer%20-%20Clear%20Print%20Queue.ps1) | Clears stuck print jobs and lists printers. | Repair / Fix | System | No | ⚠️ Deletes pending print jobs. Restarts the print spooler. | `CustomFieldName` |
+| [FIX-HW Printer - Clear Print Queue](FIX-HW%20Printer%20-%20Clear%20Print%20Queue.ps1) | Clears stuck print jobs and lists printers. | Repair / Fix | System | No | ⚠️ Deletes pending print jobs. Restarts the print spooler. | - |
 <!-- scripts:end -->

@@ -170,22 +170,15 @@
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [string]$WYSIWYGCustomFieldName = "reliabilityReport",
 
-    [Parameter()]
-    [string]$TextCustomFieldName = "reliabilityIndex"
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $TextCustomFieldName = "reliabilityIndex"   # Text custom field written by this script
+    $WYSIWYGCustomFieldName = "reliabilityReport"   # WYSIWYG custom field written by this script
 
-    if ($env:WYSIWYGCustomFieldName){
-        $WYSIWYGCustomFieldName = $env:WYSIWYGCustomFieldName
-    }
 
-    if ($env:TextCustomFieldName){
-        $TextCustomFieldName = $env:TextCustomFieldName
-    }
 
     # if custom field input is only spaces or a blank string, set it to null
     # otherwise, trim any whitespace on the ends

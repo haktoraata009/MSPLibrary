@@ -16,11 +16,6 @@
     By default, the script will report back as far as possible. To report on only the past x days, specify the number of days here. Note the 'Max Records To Return' parameter may prevent the script from returning all of the events in the specified time frame.
 .PARAMETER MaxRecordsToReturn
     Specify the number of records to return here. Note that changing this parameter may cause the data to be truncated due to character limits within Ninja.
-.PARAMETER MultilineCustomFieldName
-    Enter the name of a multiline custom field to save the results to. If you leave this blank, the results will not be saved to a multiline custom field.
-.PARAMETER WYSIWYGCustomFieldName
-    Enter the name of a WYSIWYG custom field to save the results to. If you leave this blank, the results will not be saved to a WYSIWYG custom field.
-
 .EXAMPLE
     -MaxRecordsToReturn 10
 
@@ -130,22 +125,18 @@ param (
     [Parameter()]
     $InTheLastXDays,
     [Parameter()]
-    $MaxRecordsToReturn,
-    [Parameter()]
-    [string]$MultilineCustomFieldName,
-    [Parameter()]
-    [string]$WYSIWYGCustomFieldName = "logonHistory"
+    $MaxRecordsToReturn
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomFieldName = "logonHistory"   # WYSIWYG custom field written by this script
     # Import script variables
     if ($env:UsersToReportOn) { $UsersToReportOn = $env:UsersToReportOn }
     if ($env:ExcludeUsersFromReport) { $ExcludeUsersFromReport = $env:ExcludeUsersFromReport }
     if ($env:RetrieveExcludedUsersFromCustomField) { $RetrieveExcludedUsersFromCustomField = $env:RetrieveExcludedUsersFromCustomField }
     if ($env:inTheLastXDays) { $InTheLastXDays = $env:inTheLastXDays }
     if ($env:maxRecordsToReturn) { $MaxRecordsToReturn = $env:maxRecordsToReturn }
-    if ($env:multilineCustomFieldName) { $MultilineCustomFieldName = $env:multilineCustomFieldName }
-    if ($env:wysiwygCustomFieldName) { $WYSIWYGCustomFieldName = $env:wysiwygCustomFieldName }
 
     # Check if the operating system build version is less than 10240 (Windows 10 or Windows Server 2016 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {

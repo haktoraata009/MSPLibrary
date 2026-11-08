@@ -30,16 +30,14 @@ PARAMETER: -TenantInfoCustomFieldName "ReplaceMe"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$DeviceStateCustomFieldName = "entraJoinType",
-    [Parameter()]
-    [String]$TenantInfoCustomFieldName = "entraTenantInfo"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $DeviceStateCustomFieldName = "entraJoinType"   # Text custom field written by this script
+    $TenantInfoCustomFieldName = "entraTenantInfo"   # Multi-line custom field written by this script
     # Retrieve custom field name from dynamic script form
-    if ($env:joinTypeCustomFieldName -and $env:joinTypeCustomFieldName -notlike "null") { $DeviceStateCustomFieldName = $env:joinTypeCustomFieldName }
-    if ($env:tenantInfoCustomFieldName -and $env:tenantInfoCustomFieldName -notlike "null") { $TenantInfoCustomFieldName = $env:tenantInfoCustomFieldName }
 
     # Turn dsregcmd.exe /status into a much more parseable PowerShell object
     function Get-DSRegCMD {

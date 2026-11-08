@@ -84,15 +84,14 @@ param (
     [Parameter()]
     [Switch]$CurrentUsers = [System.Convert]::ToBoolean($env:loggedInUsersOnly),
     [Parameter()]
-    [String]$CustomFieldName = "adPasswordExpiry",
-    [Parameter()]
     [switch]$ExcludeFGPPUsers = [System.Convert]::ToBoolean($env:ExcludeFineGrainedPasswordPolicyUsersOnWorkstations)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomFieldName = "adPasswordExpiry"   # Multi-line custom field written by this script
     # If script form variables are used, replace the command line parameters with their value.
     if ($env:daysUntilPasswordExpiration) { $DaysUntilExpiration = $env:daysUntilPasswordExpiration }
-    if ($env:customFieldName) { $CustomFieldName = $env:customFieldName }
 
     # Check if $DaysUntilExpiration is not provided (null or empty). 
     # If it is missing, output an error message and exit the script.

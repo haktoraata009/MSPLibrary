@@ -19,12 +19,6 @@
     C:           49.46777 FullyEncrypted                  100 {Tpm, RecoveryPassword}
     D:           126.9824 FullyDecrypted                    0 {}
 
-.PARAMETER BitlockerStatusMultilineCustomField
-    Name of a multiline custom field to save the BitLocker status report.
-
-.PARAMETER BitlockerStatusWYSIWYGCustomField
-    Name of a WYSIWYG custom field to save the BitLocker status report.
-
 .PARAMETER BitlockerEnabledAllDrivesTagName
     Tag to assign when BitLocker is fully enabled on all drives.
 
@@ -33,9 +27,6 @@
 
 .PARAMETER BitlockerDisabledAllDrivesTagName
     Tag to assign when BitLocker is disabled on all drives.
-
-.PARAMETER BitlockerKeyCustomField
-    Name of a custom field to save the BitLocker recovery keys.
 
 .NOTES
     Minimum OS Architecture Supported: Windows 10, Windows Server 2016
@@ -46,20 +37,17 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$BitlockerStatusMultilineCustomField = $(if ($env:bitlockerStatusMultilineCustomField -and $env:bitlockerStatusMultilineCustomField -notlike "null") { $env:bitlockerStatusMultilineCustomField } else { "bitlockerStatus" }),
-    [Parameter()]
-    [String]$BitlockerStatusWYSIWYGCustomField = $env:bitlockerStatusWysiwygCustomField,
-    [Parameter()]
     [String]$BitlockerEnabledAllDrivesTagName = $env:bitlockerEnabledAllDrivesTagName,
     [Parameter()]
     [String]$BitlockerPartialDrivesTagName = $env:bitlockerPartialDrivesTagName,
     [Parameter()]
-    [String]$BitlockerDisabledAllDrivesTagName = $env:bitlockerDisabledAllDrivesTagName,
-    [Parameter()]
-    [String]$BitlockerKeyCustomField = $(if ($env:bitlockerKeyCustomField -and $env:bitlockerKeyCustomField -notlike "null") { $env:bitlockerKeyCustomField } else { "bitlockerRecoveryKey" })
+    [String]$BitlockerDisabledAllDrivesTagName = $env:bitlockerDisabledAllDrivesTagName
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $BitlockerStatusMultilineCustomField = "bitlockerStatus"   # Multi-line custom field written by this script
+    $BitlockerKeyCustomField = "bitlockerRecoveryKey"   # Secure custom field written by this script
     #region OS Version Check
     # Check if the OS build is below 10240 (Windows 10 / Server 2016 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {

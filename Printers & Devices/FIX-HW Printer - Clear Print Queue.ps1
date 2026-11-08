@@ -21,11 +21,12 @@
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [string]$CustomFieldName = "printQueueResult"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomFieldName = "printQueueResult"   # Multi-line custom field written by this script
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
         $p = New-Object System.Security.Principal.WindowsPrincipal($id)
@@ -129,7 +130,6 @@ begin {
 }
 
 process {
-    if ($env:CustomFieldName -and $env:CustomFieldName -notlike "null") { $CustomFieldName = $env:CustomFieldName }
 
     if (-not (Test-IsElevated)) {
         Write-Error -Message "Access Denied. Please run with Administrator privileges."

@@ -103,10 +103,6 @@ PARAMETER: -SleepBeforeRunning
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$MultilineCustomField,
-    [Parameter()]
-    [String]$WysiwygCustomField = "speedTestReport",
-    [Parameter()]
     [Switch]$Append = [System.Convert]::ToBoolean($env:appendToCustomField),
     [Parameter()]
     [Switch]$SleepBeforeRunning = [System.Convert]::ToBoolean($env:sleepBeforeRunning),
@@ -121,9 +117,9 @@ param (
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomField = "speedTestReport"   # WYSIWYG custom field written by this script
     # If script form variables are used, replace the command line parameters with their value.
-    if ($env:multilineCustomFieldName) { $MultilineCustomField = $env:multilineCustomFieldName }
-    if ($env:wysiwygCustomFieldName) { $WysiwygCustomField = $env:wysiwygCustomFieldName }
 
     Write-Host -Object "`n=============================================================================="
     Write-Host -Object "This test is provided by Measurement Lab (M-Lab) and is subject to their"

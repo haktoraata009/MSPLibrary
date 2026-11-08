@@ -54,19 +54,18 @@ param (
     [Parameter()]
     [Int]$Timeout = 15,
     [Parameter()]
-    [String]$Algorithm = "MD5",
-    [Parameter()]
-    [String]$CustomField = "fileHashMatches"
+    [String]$Algorithm = "MD5"
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "fileHashMatches"   # Multi-line custom field written by this script
     # Set parameters using dynamic script variables.
     if ($env:hash -and $env:hash -notlike "null") { $Hash = $env:hash }
     if ($env:hashType -and $env:hashType -notlike "null") { $Algorithm = $env:hashType }
     if ($env:searchPath -and $env:searchPath -notlike "null") { $SearchPath = $env:searchPath }
     if ($env:timeoutInMinutes -and $env:timeoutInMinutes -notlike "null") { $Timeout = $env:timeoutInMinutes }
     if ($env:fileExtensionToSearchFor -and $env:fileExtensionToSearchFor -notlike "null") { $FileType = $env:fileExtensionToSearchFor }
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
 
     # If given a comma-separated list, split the paths.
     $PathsToSearch = New-Object System.Collections.Generic.List[String]

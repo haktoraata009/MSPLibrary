@@ -86,11 +86,6 @@
 .PARAMETER DriveLettersOrMountPoints
     A comma-separated list of drive letters or mount point paths to target (e.g., 'C:, D:\MountPoint\').
     Cannot be combined with 'Perform Action On All Volumes'.
-.PARAMETER MultilineCustomFieldName
-    The name of a multiline custom field to save the plain-text report to.
-.PARAMETER WysiwygCustomFieldName
-    The name of a WYSIWYG custom field to save a fragmentation bar chart to.
-
 .NOTES
     Minimum OS Architecture Supported: Windows 10, Windows Server 2016
     Version: 1.0
@@ -104,13 +99,11 @@ param (
     [Parameter()]
     [switch]$PerformActionOnAllVolumes = [System.Convert]::ToBoolean($env:performActionOnAllVolumes),
     [Parameter()]
-    [string]$DriveLettersOrMountPoints,
-    [Parameter()]
-    [string]$MultilineCustomFieldName,
-    [Parameter()]
-    [string]$WysiwygCustomFieldName = "diskOptimizeReport"
+    [string]$DriveLettersOrMountPoints
 )
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomFieldName = "diskOptimizeReport"   # WYSIWYG custom field written by this script
     Write-Host -Object ""
 
     # Check if the operating system build version is less than 10240 (Windows 10 or Windows Server 2016 minimum requirement)
@@ -121,8 +114,6 @@ begin {
 
     if ($env:action) {$Action = $env:action}
     if ($env:driveLettersOrMountPoints) {$DriveLettersOrMountPoints = $env:driveLettersOrMountPoints}
-    if ($env:multilineCustomFieldName) {$MultilineCustomFieldName = $env:multilineCustomFieldName}
-    if ($env:wysiwygCustomFieldName) {$WysiwygCustomFieldName = $env:wysiwygCustomFieldName}
 
     #region Input validation
     # If no action was provided, error out

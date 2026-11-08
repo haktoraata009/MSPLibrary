@@ -28,16 +28,13 @@ PARAMETER: -CustomField "ReplaceMeWithTheNameOfaWYSIWYGcustomField"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String[]]$DirectoriesToIgnore = ("All Users", "Default", "Default User", "Public"),
-    [Parameter()]
-    [String]$CustomField = "orphanedProfiles"
+    [String[]]$DirectoriesToIgnore = ("All Users", "Default", "Default User", "Public")
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "orphanedProfiles"   # WYSIWYG custom field written by this script
     # Set parameters using dynamic script variables.
-    if ($env:wysiwygCustomFieldName -and $env:wysiwygCustomFieldName -notlike "null") {
-        $CustomField = $env:wysiwygCustomFieldName
-    }
 
     # Function to convert a size in bytes to a more human-readable format
     function Get-FriendlySize {

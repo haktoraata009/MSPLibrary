@@ -12,11 +12,6 @@
     Include scheduled tasks created by Microsoft in the report.
 .PARAMETER IncludeDisabled
     Include scheduled tasks that are currently disabled in the report.
-.PARAMETER MultilineCustomFieldName
-    Specify the name of a multiline custom field to save the results to. This is optional; results will also be output to the activity feed.
-.PARAMETER WYSIWYGCustomFieldName
-    Specify the name of a WYSIWYG custom field to save the results to. This is optional; results will also be output to the activity feed.
-
 .EXAMPLE
     (No Parameters)
 
@@ -115,18 +110,14 @@ param (
     [Parameter()]
     [Switch]$IncludeMicrosoft = [System.Convert]::ToBoolean($env:includeMicrosoftTasks),
     [Parameter()]
-    [Switch]$IncludeDisabled = [System.Convert]::ToBoolean($env:includeDisabledTasks),
-    [Parameter()]
-    [String]$MultilineCustomFieldName,
-    [Parameter()]
-    [String]$WYSIWYGCustomFieldName = "scheduledTasksReport"
+    [Switch]$IncludeDisabled = [System.Convert]::ToBoolean($env:includeDisabledTasks)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomFieldName = "scheduledTasksReport"   # WYSIWYG custom field written by this script
     # Import script variables
     if ($env:TaskName) { $TaskName = $env:TaskName }
-    if ($env:MultilineCustomFieldName) { $MultilineCustomFieldName = $env:MultilineCustomFieldName }
-    if ($env:WYSIWYGCustomFieldName) { $WYSIWYGCustomFieldName = $env:WYSIWYGCustomFieldName }
 
     # Check if the operating system build version is less than 9600 (Windows 10 or Windows Server 2012 R2 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 9600) {

@@ -57,17 +57,15 @@ PARAMETER: -PowerSettingsCustomFieldName "ReplaceMeWithAnyTextCustomField"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$PowerPlanCustomFieldName = "activePowerPlan",
-    [Parameter()]
-    [String]$PowerSettingsCustomFieldName = "activePowerSettings"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $PowerPlanCustomFieldName = "activePowerPlan"   # Text custom field written by this script
+    $PowerSettingsCustomFieldName = "activePowerSettings"   # Multi-line custom field written by this script
 
     # If Script forms are used replace parameters with their value.
-    if ($env:powerPlanCustomFieldName -and $env:powerPlanCustomFieldName -notlike "null" ) { $PowerPlanCustomFieldName = $env:powerPlanCustomFieldName }
-    if ($env:powerSettingsCustomFieldName -and $env:powerSettingsCustomFieldName -notlike "null") { $PowerSettingsCustomFieldName = $env:powerSettingsCustomFieldName }
 
     # Script will fail if not elevated (some setting values are hidden to non-admins)
     function Test-IsElevated {

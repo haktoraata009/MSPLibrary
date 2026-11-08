@@ -70,7 +70,7 @@ Each folder README also lists, per script, how it runs, whether it needs a reboo
 1. Go to **Administration > Library > Automation**, then **Add > New Script**.
 2. Paste the script. Set **Language** to PowerShell, **Operating system** to Windows, **Architecture** to All, and **Run as** to System (unless the folder README says otherwise).
 3. Add a **Script Variable** for each name listed in the folder README's *Script variables* column. Use the same name: NinjaOne passes it to the script as `$env:<name>`.
-4. If the script writes to a custom field, create that field first with the exact Name in [CUSTOM-FIELDS.md](CUSTOM-FIELDS.md) (case sensitive) and give Automations **Read/Write** access. Leave the field-name variable blank to use the built-in name.
+4. If the script writes to a custom field, create that field first with the exact Name in [CUSTOM-FIELDS.md](CUSTOM-FIELDS.md) (case sensitive) and give Automations **Read/Write** access. No script variable is needed for the field name.
 5. Test on one pilot device, then schedule it or add it to a policy.
 
 ## Running a script locally

@@ -9,9 +9,6 @@
 .PARAMETER EnableLocationServicesTemporarily
     If Location Services is disabled, this parameter will attempt to enable it temporarily while this script runs.
     Location Services will be set back to its original value when the script completes.
-.PARAMETER WYSIWYGCustomFieldName
-    Enter the name of a WYSIWYG Custom Field to populate with the report.
-
 .EXAMPLE
     -WYSIWYGCustomFieldName "wlanreport"
 
@@ -80,14 +77,13 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]
-    $WYSIWYGCustomFieldName = "wifiReport",
-    [Parameter()]
     [Switch]
     $EnableLocationServicesTemporarily = [System.Convert]::ToBoolean($env:enableLocationServicesTemporarily)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomFieldName = "wifiReport"   # WYSIWYG custom field written by this script
     # Check if the operating system build version is less than 10240 (Windows 10 or Windows Server 2016 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {
         Write-Host -Object "`n[Warning] The minimum OS version supported by this script is Windows 10 (10240) or Windows Server 2016 (14393)."
@@ -95,7 +91,6 @@ begin {
     }
 
     # Import script variable
-    if ($env:wysiwygCustomFieldName) { $WYSIWYGCustomFieldName = $env:wysiwygCustomFieldName }
 
     # Validate the WYSIWYG custom field name if provided
     if ($WYSIWYGCustomFieldName) {

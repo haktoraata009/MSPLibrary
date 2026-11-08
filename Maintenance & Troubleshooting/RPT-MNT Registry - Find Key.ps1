@@ -70,8 +70,6 @@ param (
     [Parameter()]
     [int]$Depth = 4,
     [Parameter()]
-    [String]$CustomField = "registrySearchResult",
-    [Parameter()]
     [Switch]$Path = [System.Convert]::ToBoolean($env:searchForMatchingKeyPaths),
     [Parameter()]
     [Switch]$Property = [System.Convert]::ToBoolean($env:searchForMatchingKeyProperties),
@@ -80,11 +78,12 @@ param (
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "registrySearchResult"   # Multi-line custom field written by this script
     if ($env:rootKeyToSearch -and $env:rootKeyToSearch -notlike "null") { $RootKey = $env:rootKeyToSearch }
     if ($env:searchPath -and $env:searchPath -notlike "null") { $SearchPath = $env:searchPath }
     if ($env:searchFor -and $env:searchFor -notlike "null") { $Search = $env:searchFor }
     if ($env:searchDepth -and $env:searchDepth -notlike "null") { $Depth = $env:searchDepth }
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
 
     # Error out if we're not told to match the search string with anything.
     if (-not $Path -and -not $Property -and -not $Value) {

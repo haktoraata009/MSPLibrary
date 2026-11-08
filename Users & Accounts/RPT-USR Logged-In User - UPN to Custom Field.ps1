@@ -1,5 +1,5 @@
-# NinjaOne script variable 'customFieldName' overrides the default field.
-$CustomFieldName = if ($env:customFieldName -and $env:customFieldName -notlike 'null') { $env:customFieldName } else { 'lastLoggedInUser' }
+# Custom field name (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+$CustomFieldName = 'lastLoggedInUser'   # Text custom field written by this script
 
 $script:source = @"
 using Microsoft.Win32.SafeHandles;

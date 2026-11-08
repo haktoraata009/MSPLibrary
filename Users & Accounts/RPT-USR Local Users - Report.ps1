@@ -54,12 +54,12 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [Switch]$IncludeDisabledUsers = [System.Convert]::ToBoolean($env:includeDisabledUsers),
-    [Parameter()]
-    [String]$WysiwygCustomField = "localUsersReport"
+    [Switch]$IncludeDisabledUsers = [System.Convert]::ToBoolean($env:includeDisabledUsers)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomField = "localUsersReport"   # WYSIWYG custom field written by this script
     # Check if the operating system build version is less than 9600 (Windows 10 or Windows Server 2012 R2 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 9600) {
         Write-Host -Object "`n[Warning] The minimum OS version supported by this script is Windows 10 (10240) or Windows Server 2012 R2 (9600)."
@@ -67,7 +67,6 @@ begin {
     }
 
     # If script form variables are used, replace the command line parameters with their value.
-    if ($env:wysiwygCustomFieldName) { $WysiwygCustomField = $env:wysiwygCustomFieldName }
 
     # Validate the WYSIWYG custom field
     if ($WysiwygCustomField) {

@@ -35,5 +35,5 @@ Names follow the [naming convention](../README.md#naming-convention): `<TYPE>-<A
 | [REM-INT Teams Classic Appx - Remove](REM-INT%20Teams%20Classic%20Appx%20-%20Remove.ps1) | Removes the built-in consumer Teams app. | Uninstall | System | No | - | - |
 | [RPT-INT Autopilot - Export Hardware Hash CSV](RPT-INT%20Autopilot%20-%20Export%20Hardware%20Hash%20CSV.ps1) | Saves the device's Autopilot hardware hash to C:\HWID as a CSV for upload. | Report (read-only) | System | No | ⚠️ Installs a script from PowerShell Gallery. | - |
 | [RPT-INT Autopilot - Get-WindowsAutopilotInfo](RPT-INT%20Autopilot%20-%20Get-WindowsAutopilotInfo.ps1) | Community script that collects Autopilot hardware hashes and can upload them to Intune. | Report (read-only) | System | Optional | ⚠️ With -Online -Assign -Reboot it registers and restarts the device. | - |
-| [RPT-INT Autopilot - Hardware ID to Custom Field](RPT-INT%20Autopilot%20-%20Hardware%20ID%20to%20Custom%20Field.ps1) | Reads the Autopilot hardware hash and saves it to a custom field. | Report (read-only) | System | No | - | `customFieldName` |
+| [RPT-INT Autopilot - Hardware ID to Custom Field](RPT-INT%20Autopilot%20-%20Hardware%20ID%20to%20Custom%20Field.ps1) | Reads the Autopilot hardware hash and saves it to a custom field. | Report (read-only) | System | No | - | - |
 <!-- scripts:end -->

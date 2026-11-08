@@ -82,23 +82,17 @@ param (
     [Parameter()]
     [String]$ExclusionsFromCustomField,
     [Parameter()]
-    [String]$ExportCSV = "remoteAccessTools",
-    [Parameter()]
-    [String]$ExportJSON,
-    [Parameter()]
     [Switch]$ShowNotFound = [System.Convert]::ToBoolean($env:includeToolsThatWereNotFound)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $ExportCSV = "remoteAccessTools"   # Multi-line custom field written by this script
     #DISCLAIMER: This script is provided as a best effort for detecting remote access software installed on an agent, but it is not guaranteed to be 100% accurate.
     #Some remote access software may not be detected, or false positives may be reported. Use this script at your own risk and verify its results with other methods where possible.
 
     if ($env:toolsToIgnore -and $env:toolsToIgnore -notlike "null") { $ExcludeTools = $env:toolsToIgnore }
     if ($env:retrieveIgnoreListFromCustomField -and $env:retrieveIgnoreListFromCustomField -notlike "null") { $ExclusionsFromCustomField = $env:retrieveIgnoreListFromCustomField }
-    if ($env:exportCsvResultsToThisCustomField -and $env:exportCsvResultsToThisCustomField -notlike "null") { $ExportCSV = $env:exportCsvResultsToThisCustomField }
-    if ($env:exportJsonResultsToThisCustomField -and $env:exportJsonResultsToThisCustomField -notlike "null") { $ExportJSON = $env:exportJsonResultsToThisCustomField }
-
-    if ($ExportCSV -and $ExportJSON) { Write-Error "You can only export in either JSON or CSV format. Not both."; exit 1 }
 
     # Check's the two Uninstall registry keys to see if the app is installed. Needs the name as it would appear in Control Panel.
     function Find-UninstallKey {

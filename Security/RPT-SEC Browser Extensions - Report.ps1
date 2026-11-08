@@ -116,27 +116,12 @@ PARAMETER: -WysiwygCustomField "ReplaceMeWithAnyWYSIWYGCustomField"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$MultilineCustomField,
-    [Parameter()]
-    [String]$WysiwygCustomField = "browserExtensions"
+
 )
 
 begin {
-    # if custom field input is only spaces, set it to null
-    if (-not [string]::IsNullOrWhiteSpace($env:WYSIWYGCustomFieldName)){
-        $WYSIWYGCustomField = $env:WYSIWYGCustomFieldName.Trim()
-    }
-    else{
-        $WYSIWYGCustomField = $WYSIWYGCustomField.Trim()
-    }
-
-    if (-not [string]::IsNullOrWhiteSpace($env:MultilineCustomFieldName)){
-        $MultilineCustomField = $env:MultilineCustomFieldName.Trim()
-    }
-    else{
-        $MultilineCustomField = $MultilineCustomField.Trim()
-    }
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomField = "browserExtensions"   # WYSIWYG custom field written by this script
 
     # test custom field for invalid characters
     if ($WYSIWYGCustomField -match "[^0-9A-Z]"){

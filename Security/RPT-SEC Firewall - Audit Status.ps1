@@ -44,13 +44,12 @@ param (
     [Parameter()]
     [Switch]$Private = [System.Convert]::ToBoolean($env:privateProfile),
     [Parameter()]
-    [Switch]$Public = [System.Convert]::ToBoolean($env:publicProfile),
-    [Parameter()]
-    [String]$CustomField = "firewallStatus"
+    [Switch]$Public = [System.Convert]::ToBoolean($env:publicProfile)
 )
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "firewallStatus"   # Text custom field written by this script
     # If script form variables are used, replace the command-line parameters with their values.
-    if ($env:firewallStatusCustomFieldName -and $env:firewallStatusCustomFieldName -notlike "null") { $CustomField = $env:firewallStatusCustomFieldName }
 
     # If no firewall profile is given, display an error message and exit the script.
     if (!$Domain -and !$Private -and !$Public) {

@@ -22,12 +22,12 @@ PARAMETER: -CustomField "ExampleInput"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$CustomField = "deviceDescription"
+
 )
 
 begin {
-    if ($env:nameOfCustomField -and $env:nameOfCustomField -notlike "null") { $CustomField = $env:nameOfCustomField }
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "deviceDescription"   # Text custom field written by this script
 
     # PowerShell 3 or higher is required for custom field functionality
     if ($PSVersionTable.PSVersion.Major -lt 3 -and $CustomField) {

@@ -70,16 +70,15 @@ param (
     [Parameter()]
     [Int]$Timeout = 30,
     [Parameter()]
-    [String]$CustomField = "msertScanResult",
-    [Parameter()]
     [String]$DownloadURL = "https://go.microsoft.com/fwlink/?LinkId=212732"
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "msertScanResult"   # Multi-line custom field written by this script
     # Set parameters using dynamic script variables.
     if($env:scanType -and $env:scanType -notlike "null"){ $ScanType = $env:scanType }
     if($env:scanTimeoutInMinutes -and $env:scanTimeoutInMinutes -notlike "null"){ $Timeout = $env:scanTimeoutInMinutes }
-    if($env:customFieldName -and $env:customFieldName -notlike "null"){ $CustomField = $env:customFieldName }
 
     # If a timeout is specified, check that it's in the valid range.
     if($Timeout -lt 1 -or $Timeout -ge 120){

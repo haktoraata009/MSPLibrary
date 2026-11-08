@@ -26,12 +26,12 @@
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$CustomField = "usbStorageAccess"
+
 )
 
 begin {
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "usbStorageAccess"   # Text custom field written by this script
 
     if ($CustomField) {
         $CustomField = $CustomField.Trim()

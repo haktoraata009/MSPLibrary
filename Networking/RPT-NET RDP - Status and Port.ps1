@@ -29,11 +29,12 @@ PARAMETER: -RdpStatusCustomFieldName "RDPStatus"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$RdpStatusCustomFieldName = "rdpStatus"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $RdpStatusCustomFieldName = "rdpStatus"   # Text custom field written by this script
     function Set-NinjaProperty {
         [CmdletBinding()]
         Param(
@@ -132,7 +133,6 @@ begin {
 }
 process {
 
-    if ($env:rdpStatusCustomFieldName -and $env:rdpStatusCustomFieldName -notlike "null") { $RdpStatusCustomFieldName = $env:rdpStatusCustomFieldName }
 
     # Terminal Server registry path
     $RdpPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server'

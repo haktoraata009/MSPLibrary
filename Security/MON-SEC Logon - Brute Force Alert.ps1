@@ -13,11 +13,6 @@
     Enter the number of hours back in time to look through in the event log. Value must be between 1 and 24 (inclusive).
 .PARAMETER FailedAttemptsLimit
     Enter the number of failed logon attempts that will trigger the alert. Value must be between 1 and 100 (inclusive).
-.PARAMETER MultilineCustomFieldName
-    Enter the name of a multiline custom field to populate with the results.
-.PARAMETER WYSIWYGCustomFieldName
-    Enter the name of a WYSIWYG custom field to populate with the results.
-
 .EXAMPLE
     -AlertMethod "Per User" -InTheLastXHours 24 -FailedAttemptsLimit 10
 
@@ -62,14 +57,12 @@ param (
     [Parameter()]
     $InTheLastXHours = 1,
     [Parameter()]
-    $FailedAttemptsLimit = 8,
-    [Parameter()]
-    [string]$MultilineCustomFieldName = "bruteForceLogons",
-    [Parameter()]
-    [string]$WYSIWYGCustomFieldName
+    $FailedAttemptsLimit = 8
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $MultilineCustomFieldName = "bruteForceLogons"   # Multi-line custom field written by this script
     # Check if the operating system build version is less than 10240 (Windows 10 or Windows Server 2016 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {
         Write-Host -Object "`n[Warning] The minimum OS version supported by this script is Windows 10 (10240) or Windows Server 2016 (14393)."
@@ -80,8 +73,6 @@ begin {
     if ($env:AlertMethod) { $AlertMethod = $env:AlertMethod }
     if ($env:InTheLastXHours) { $InTheLastXHours = $env:InTheLastXHours }
     if ($env:FailedAttemptsLimit) { $FailedAttemptsLimit = $env:FailedAttemptsLimit }
-    if ($env:MultilineCustomFieldName) { $MultilineCustomFieldName = $env:MultilineCustomFieldName }
-    if ($env:WYSIWYGCustomFieldName) { $WYSIWYGCustomFieldName = $env:WYSIWYGCustomFieldName }
 
     # Validate the 'Alert Method' parameter
     if ($AlertMethod -notin @("Per User", "Cumulative")) {

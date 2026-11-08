@@ -26,13 +26,13 @@ PARAMETER: -CustomField "ReplaceMeWithYourDesiredCustomField"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$CustomField = "networkProfile"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "networkProfile"   # Multi-line custom field written by this script
     # If script form variables are used, replace the command the command line parameters with their value.
-    if ($env:networkProfileCustomFieldName -and $env:networkProfileCustomFieldName -notlike "null") { $CustomField = $env:networkProfileCustomFieldName }
     
     function Set-NinjaProperty {
         [CmdletBinding()]

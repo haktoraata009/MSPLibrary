@@ -31,5 +31,5 @@ Names follow the [naming convention](../README.md#naming-convention): `<TYPE>-<A
 | [MON-SRV SQL - Health Monitor](MON-SRV%20SQL%20-%20Health%20Monitor.ps1) | Alerts on SQL services, database drive space and disk latency. | Monitor / Alert | Server | No | - | `diskFreeSpaceThreshold`, `diskLatencyThreshold`, `requireAgentService`, `Username` |
 | [RPT-SRV NTFS - Folder Permissions Report](RPT-SRV%20NTFS%20-%20Folder%20Permissions%20Report.ps1) | Exports folder permissions under a path to CSV. | Report (read-only) | Server | No | ⚠️ Set the folder path first. | - |
 | [RPT-SRV RDS - Connection Logging](RPT-SRV%20RDS%20-%20Connection%20Logging.ps1) | Logs RDS user connections (user, client name, IP) to a share. | Report (read-only) | Server | No | - | - |
-| [RPT-SRV SQL - Instances](RPT-SRV%20SQL%20-%20Instances.ps1) | Lists SQL Server instances on the server. | Report (read-only) | Server | No | - | `multilineCustomFieldName`, `WysiwygCustomFieldName` |
+| [RPT-SRV SQL - Instances](RPT-SRV%20SQL%20-%20Instances.ps1) | Lists SQL Server instances on the server. | Report (read-only) | Server | No | - | - |
 <!-- scripts:end -->

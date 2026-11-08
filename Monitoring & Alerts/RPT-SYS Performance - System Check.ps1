@@ -119,9 +119,6 @@
 .PARAMETER NumberOfEvents
     The number of error events to retrieve from the Application, Security, Setup, and System event logs.
 
-.PARAMETER WysiwygCustomField
-    Optionally specify the name of a WYSIWYG custom field to store the formatted performance data.
-
 .PARAMETER PerformInternetSpeedTest
     Determines whether to perform an internet speed test as part of the system performance assessment.
     This test uses M-Lab’s MSAK server under their Acceptable Use Policy. By proceeding, you consent to public collection of network data, including your IP.
@@ -144,8 +141,6 @@ param (
     [Parameter()]
     $NumberOfEvents,
     [Parameter()]
-    [String]$WysiwygCustomField = "performanceReport",
-    [Parameter()]
     [Switch]$DisplayUserMessage = [System.Convert]::ToBoolean($env:displayUserMessage),
     [Parameter()]
     [Switch]$PerformInternetSpeedTest = [System.Convert]::ToBoolean($env:performInternetSpeedTest),
@@ -162,11 +157,12 @@ param (
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomField = "performanceReport"   # WYSIWYG custom field written by this script
     # If script form variables are used, replace command line parameters with their values.
     if ($env:daysSinceLastReboot) { $DaysSinceLastReboot = $env:daysSinceLastReboot }
     if ($env:durationToPerformTests) { $DurationToPerformTests = $env:durationToPerformTests }
     if ($env:numberOfEvents) { $NumberOfEvents = $env:numberOfEvents }
-    if ($env:wysiwygCustomFieldName) { $WysiwygCustomField = $env:wysiwygCustomFieldName }
 
     #region Input validation
 

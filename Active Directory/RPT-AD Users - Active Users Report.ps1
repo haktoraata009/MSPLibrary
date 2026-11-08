@@ -40,12 +40,6 @@
 .PARAMETER MaximumDaysSinceLastLogin
     The maximum number of days since a user's last login for them to be considered active. Only users who have logged in within this number of days will be included in the active user count.
 
-.PARAMETER MultilineCustomFieldName
-    Optionally provide the name of a multiline custom field to save the report results to.
-
-.PARAMETER WYSIWYGCustomFieldName
-    Optionally provide the name of a WYSIWYG custom field to save a summary card and user table to.
-
 .PARAMETER ExcludeDisabledUsers
     When enabled, users who are currently disabled in Active Directory will be excluded from the report.
 
@@ -71,14 +65,12 @@ param (
     [Parameter()]
     [Int]$MaximumDaysSinceLastLogin,
     [Parameter()]
-    [String]$MultilineCustomFieldName = $env:multilineCustomFieldName,
-    [Parameter()]
-    [String]$WYSIWYGCustomFieldName = $(if ($env:wysiwygCustomFieldName -and $env:wysiwygCustomFieldName -notlike "null") { $env:wysiwygCustomFieldName } else { "adActiveUsers" }),
-    [Parameter()]
     [Switch]$ExcludeDisabledUsers = [System.Convert]::ToBoolean($env:excludeDisabledUsersFromReport)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomFieldName = "adActiveUsers"   # WYSIWYG custom field written by this script
     #region Script form variable mapping
     # Map the maximum days form variable to the parameter if it was provided
     if ($env:maximumDaysSinceLastLogin) {

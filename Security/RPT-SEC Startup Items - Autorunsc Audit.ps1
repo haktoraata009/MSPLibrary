@@ -103,8 +103,6 @@ PARAMETER: -SkipSleep
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField = "startupItemsReport",
-    [Parameter()]
     [Switch]$Startup = [System.Convert]::ToBoolean($env:checkLogonStartupEntries),
     [Parameter()]
     [Switch]$Boot = [System.Convert]::ToBoolean($env:checkBootEntries),
@@ -147,11 +145,12 @@ param (
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "startupItemsReport"   # WYSIWYG custom field written by this script
 
     # If Script Forms are used replace the parameters
     if ($env:destinationFolder -and $env:DestinationFolder -notlike "null") { $DestinationFolder = $env:destinationFolder }
     if ($env:downloadUrl -and $env:downloadUrl -notlike "null") { $DownloadUrl = $env:downloadUrl }
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
 
     if ($PSVersionTable.PSVersion.Major -lt 5) {
         function Expand-Archive {

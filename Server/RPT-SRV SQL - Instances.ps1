@@ -56,11 +56,12 @@ PARAMETER: -CustomFieldParam "ReplaceMeWithAnyWysiwygCustomField"
 
 [CmdletBinding()]
 param (
-    [String]$CustomFieldName,
-    [String]$WysiwygCustomFieldName = "sqlInstances"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomFieldName = "sqlInstances"   # WYSIWYG custom field written by this script
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
         $p = New-Object System.Security.Principal.WindowsPrincipal($id)
@@ -149,12 +150,6 @@ begin {
         if ($CustomField.Exception) {
             throw $CustomField
         }
-    }
-    if ($env:multilineCustomFieldName -and $env:multilineCustomFieldName -notlike "null") {
-        $CustomFieldName = $env:multilineCustomFieldName
-    }
-    if ($env:WysiwygCustomFieldName -and $env:WysiwygCustomFieldName -notlike "null") {
-        $WysiwygCustomFieldName = $env:WysiwygCustomFieldName
     }
 }
 process {

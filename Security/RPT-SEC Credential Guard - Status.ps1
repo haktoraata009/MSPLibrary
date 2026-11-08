@@ -34,14 +34,12 @@
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [string]$TextCustomFieldName = "credentialGuardStatus"
+
 )
 
 begin {
-    if ($env:TextCustomFieldName -and $env:TextCustomFieldName -ne 'null'){
-        $TextCustomFieldName = $env:TextCustomFieldName
-    }
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $TextCustomFieldName = "credentialGuardStatus"   # Text custom field written by this script
 
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()

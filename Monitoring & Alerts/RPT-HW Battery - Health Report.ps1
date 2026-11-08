@@ -138,13 +138,13 @@ PARAMETER: -WYSIWYGCustomField "ReplaceMeWithTheNameOfAWysiwygCustomField"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$WYSIWYGCustomField = "batteryHealthReport"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomField = "batteryHealthReport"   # WYSIWYG custom field written by this script
     # If script form variables are used, replace the commandline parameters with their value.
-    if ($env:wysiwygCustomFieldName -and $env:wysiwygCustomFieldName -notlike "null") { $WYSIWYGCustomField = $env:wysiwygCustomFieldName }
 
     # Check if the operating system build version is less than 10240 (Windows 10 requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {

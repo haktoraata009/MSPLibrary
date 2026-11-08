@@ -56,18 +56,6 @@
 .PARAMETER InactivityDaysLimit
     Defines the number of days since a user's last sign-in to consider their account as inactive.
 
-.PARAMETER SummaryWYSIWYG
-    Optionally specify the name of a custom field to save a summary of the current Active Directory environment.
-
-.PARAMETER EnabledUsersWYSIWYG
-    Optionally specify the name of a custom field to save a report of the current enabled users in Active Directory.
-
-.PARAMETER DisabledUsersWYSIWYG
-    Optionally specify the name of a custom field to save a report of the current disabled users in Active Directory.
-
-.PARAMETER GroupMembershipWYSIWYG
-    Optionally specify the name of a custom field to save a report of the current Active Directory group membership.
-
 .NOTES
     Minimum OS Architecture Supported: Windows 10, Windows Server 2016
     Version: 2.0
@@ -77,24 +65,17 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    $InactivityDaysLimit = 30,
-    [Parameter()]
-    [String]$SummaryWYSIWYG = "adDomainSummary",
-    [Parameter()]
-    [String]$EnabledUsersWYSIWYG = "adEnabledUsers",
-    [Parameter()]
-    [String]$DisabledUsersWYSIWYG = "adDisabledUsers",
-    [Parameter()]
-    [String]$GroupMembershipWYSIWYG = "adGroupMembership"
+    $InactivityDaysLimit = 30
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $SummaryWYSIWYG = "adDomainSummary"   # WYSIWYG custom field written by this script
+    $EnabledUsersWYSIWYG = "adEnabledUsers"   # WYSIWYG custom field written by this script
+    $DisabledUsersWYSIWYG = "adDisabledUsers"   # WYSIWYG custom field written by this script
+    $GroupMembershipWYSIWYG = "adGroupMembership"   # WYSIWYG custom field written by this script
     # If script form variables are used, replace the command line parameters with their values.
     if ($env:inactivityDaysLimit) { $InactivityDaysLimit = $env:inactivityDaysLimit }
-    if ($env:domainSummaryWysiwygCustomFieldName) { $SummaryWYSIWYG = $env:domainSummaryWysiwygCustomFieldName }
-    if ($env:enabledUsersWysiwygCustomFieldName) { $EnabledUsersWYSIWYG = $env:enabledUsersWysiwygCustomFieldName }
-    if ($env:disabledUsersWysiwygCustomFieldName) { $DisabledUsersWYSIWYG = $env:disabledUsersWysiwygCustomFieldName }
-    if ($env:groupMembershipWysiwygCustomFieldName) { $GroupMembershipWYSIWYG = $env:groupMembershipWysiwygCustomFieldName }
 
     #region Input Validation
 

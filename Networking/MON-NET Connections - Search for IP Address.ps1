@@ -45,11 +45,12 @@ PARAMETER: -CustomField "ReplaceMeWithAnyMultilineCustomField"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$IpAddress,
-    [String]$CustomFieldName = "ipConnectionMatches"
+    [String]$IpAddress
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomFieldName = "ipConnectionMatches"   # Multi-line custom field written by this script
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
         $p = New-Object System.Security.Principal.WindowsPrincipal($id)
@@ -287,9 +288,6 @@ process {
     }
     if ($env:ipAddress -and $env:ipAddress -ne 'null') {
         $IpAddress = $env:ipAddress
-    }
-    if ($env:customFieldName -and $env:customFieldName -ne 'null') {
-        $CustomFieldName = $env:customFieldName
     }
 
     # Parse the Addresses to check

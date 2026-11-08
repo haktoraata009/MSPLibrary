@@ -31,13 +31,12 @@ PARAMETER: -Delimiter "ReplaceWithYourDesiredDelimiter"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField = "LocalAdmins",
-    [Parameter()]
     [String]$Delimiter = ', '
 )
 
 begin {
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "LocalAdmins"   # Text custom field written by this script
     if ($env:delimiter -and $env:delimiter -notlike "null") { $Delimiter = $env:delimiter }
     $CheckNinjaCommand = "Ninja-Property-Set"
 }

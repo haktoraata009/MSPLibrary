@@ -23,14 +23,13 @@
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]
-    $CustomField = "hardwareid"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "hardwareid"   # Multi-line custom field written by this script
 
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
         $p = New-Object System.Security.Principal.WindowsPrincipal($id)

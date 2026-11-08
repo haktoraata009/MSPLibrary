@@ -58,12 +58,6 @@
 .PARAMETER MaxEvents
     Specifies the maximum number of events to return. Must be between 1 and 1,000 events (inclusive).
 
-.PARAMETER MultilineCustomField
-    The name of a multiline custom field to save BSOD events.
-
-.PARAMETER WYSIWYGCustomField
-    The name of a WYSIWYG custom field to save BSOD events.
-
 .PARAMETER SaveFullHistory
     When saving the results to a custom field, save the full history (within the maximum event cap) instead of only the events that triggered the alert.
 
@@ -80,16 +74,12 @@ param (
     [Parameter()]
     [Int]$MaxEvents = 25,
     [Parameter()]
-    [String]$MultilineCustomField = "bsodHistory",
-    [Parameter()]
-    [String]$WYSIWYGCustomField,
-    [Parameter()]
     [Switch]$SaveFullHistory = [System.Convert]::ToBoolean($env:saveFullHistory)
 )
 
 begin {
-    if ($env:multilineCustomFieldName) { $MultilineCustomField = $env:multilineCustomFieldName }
-    if ($env:wysiwygCustomFieldName) { $WYSIWYGCustomField = $env:wysiwygCustomFieldName }
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $MultilineCustomField = "bsodHistory"   # Multi-line custom field written by this script
 
     #region Input Validation
     if ($env:minutesAgo) {

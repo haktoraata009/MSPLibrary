@@ -28,15 +28,13 @@
 param (
     [Parameter()]
     [Alias("MaxSize", "Size", "ms", "m", "s")]
-    [Double]$Max,
-    [Parameter()]
-    [Alias("Custom", "Field", "cf", "c", "f")]
-    [String]$CustomField = "TotalUsersProfileSize"
+    [Double]$Max
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "TotalUsersProfileSize"   # Text custom field written by this script
     if ($env:sizeInGbToAlertOn -and $env:sizeInGbToAlertOn -notlike "null") { $Max = $env:sizeInGbToAlertOn }
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomField = $env:customFieldName }
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
         $p = New-Object System.Security.Principal.WindowsPrincipal($id)

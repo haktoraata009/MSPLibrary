@@ -35,13 +35,13 @@ PARAMETER: -CustomFieldName "replaceMeWithACustomFieldName"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$CustomFieldName = "usbDriveAlert"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomFieldName = "usbDriveAlert"   # Multi-line custom field written by this script
     # Grab CustomFieldName from dynamic script form
-    if ($env:customFieldName -and $env:customFieldName -notlike "null") { $CustomFieldName = $env:customFieldName }
 
     # Initialize exit code
     $ExitCode = 0

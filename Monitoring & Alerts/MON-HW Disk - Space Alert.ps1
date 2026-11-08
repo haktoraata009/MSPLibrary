@@ -141,10 +141,6 @@ param (
     [Parameter()]
     [Switch]$HideNonalertingVolumesFromActivityLog = [System.Convert]::ToBoolean($env:hideNonalertingVolumesFromActivityLog),
     [Parameter()]
-    [String]$MultilineCustomField = $(if ($env:multilineCustomFieldName -and $env:multilineCustomFieldName -notlike "null") { $env:multilineCustomFieldName } else { "diskSpaceStatus" }),
-    [Parameter()]
-    [String]$WYSIWYGCustomField = $env:wysiwygCustomFieldName,
-    [Parameter()]
     [String]$SystemVolumeMinFreePercentCustomField = $env:retrieveSystemVolumeMinimumPercentageFreeFromCustomField,
     [Parameter()]
     [String]$SystemVolumeMinFreeSizeCustomField = $env:retrieveSystemVolumeMinimumFreeSizeFromCustomField,
@@ -159,6 +155,8 @@ param (
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $MultilineCustomField = "diskSpaceStatus"   # Multi-line custom field written by this script
     #region Input Validation
 
     # Define an array of custom fields to validate

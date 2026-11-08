@@ -53,18 +53,14 @@ param (
     [Parameter()]
     [String]$MinimumAlertSize = "50 GB",
     [Parameter()]
-    [String]$Extensions = ".ost, .pst",
-    [Parameter()]
-    [String]$MultilineCustomField,
-    [Parameter()]
-    [String]$WYSIWYGCustomField = "outlookDataFiles"
+    [String]$Extensions = ".ost, .pst"
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomField = "outlookDataFiles"   # WYSIWYG custom field written by this script
     # If script form variables are used, replace the command line parameters with their value.
     if ($env:minimumAlertAndReportingSize) { $MinimumAlertSize = $env:minimumAlertAndReportingSize }
-    if ($env:multilineCustomFieldName) { $MultilineCustomField = $env:multilineCustomFieldName }
-    if ($env:wysiwygCustomFieldName) { $WYSIWYGCustomField = $env:wysiwygCustomFieldName }
 
     # Check if the $MinimumAlertSize variable is null, empty, or consists only of whitespace.
     if ([String]::IsNullOrWhiteSpace($MinimumAlertSize)) {

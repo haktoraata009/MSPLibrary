@@ -48,24 +48,17 @@ PARAMETER: -DefinitionDateAndStatusCustomField "ReplaceMeWithNameOfTextCustomFie
 [CmdletBinding()]
 param (
     [Parameter()]
-    $DaysUntilConsideredOutdated = "7",
-    [Parameter()]
-    [String]$WYSIWYGCustomField = "antivirusReport",
-    [Parameter()]
-    [String]$NameCustomField = "antivirusName",
-    [Parameter()]
-    [String]$StatusCustomField = "antivirusStatus",
-    [Parameter()]
-    [String]$DefinitionDateAndStatusCustomField = "antivirusDefinitions"
+    $DaysUntilConsideredOutdated = "7"
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WYSIWYGCustomField = "antivirusReport"   # WYSIWYG custom field written by this script
+    $NameCustomField = "antivirusName"   # Text custom field written by this script
+    $StatusCustomField = "antivirusStatus"   # Text custom field written by this script
+    $DefinitionDateAndStatusCustomField = "antivirusDefinitions"   # Text custom field written by this script
     # If script form variables are used, replace the command line parameters with their value.
     if ($env:definitionsAgeLimitInDays) { $DaysUntilConsideredOutdated = $env:definitionsAgeLimitInDays }
-    if ($env:wysiwygCustomFieldName) { $WYSIWYGCustomField = $env:wysiwygCustomFieldName }
-    if ($env:antivirusNameCustomField) { $NameCustomField = $env:antivirusNameCustomField }
-    if ($env:statusCustomFieldName) { $StatusCustomField = $env:statusCustomFieldName }
-    if ($env:definitionDateAndStatusCustomField) { $DefinitionDateAndStatusCustomField = $env:definitionDateAndStatusCustomField }
 
     # Trim leading and trailing whitespace from each specified variable, if it is set
     if($DaysUntilConsideredOutdated) { $DaysUntilConsideredOutdated = $DaysUntilConsideredOutdated.Trim() }

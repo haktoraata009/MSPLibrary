@@ -52,19 +52,15 @@ param (
     [Parameter()]
     [Switch]$ComponentCleanup = [System.Convert]::ToBoolean($env:componentCleanup),
     [Parameter()]
-    [Switch]$ForceReboot = [System.Convert]::ToBoolean($env:forceReboot),
-    [Parameter()]
-    [String]$MultilineCustomFieldName = "dismRepairResult",
-    [Parameter()]
-    [String]$WYSIWYGCustomFieldName
+    [Switch]$ForceReboot = [System.Convert]::ToBoolean($env:forceReboot)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $MultilineCustomFieldName = "dismRepairResult"   # Multi-line custom field written by this script
     # If script form variables are used, update the command line parameters with their value.
     if ($env:healthAction) { $HealthAction = $env:healthAction }
     if ($env:repairSource) { $RepairSource = $env:repairSource }
-    if ($env:multilineCustomFieldName) { $MultilineCustomFieldName = $env:multilineCustomFieldName }
-    if ($env:wysiwygCustomFieldName) { $WYSIWYGCustomFieldName = $env:wysiwygCustomFieldName }
     if ($env:maxTimeout) {
         # Validate that the 'maxTimeout' value is not null or whitespace
         if ([String]::IsNullOrWhiteSpace($env:maxTimeout)) {

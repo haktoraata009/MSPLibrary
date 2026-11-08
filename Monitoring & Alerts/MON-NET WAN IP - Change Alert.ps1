@@ -100,15 +100,13 @@
 param (
     [Parameter()]
     [string[]]$ExpectedWANIP,
-
     [Parameter()]
-    [string]$ExpectedWANIPFromCustomFieldName,
-
-    [Parameter()]
-    [string]$WANIPHistoryCustomFieldName = "wanIpHistory"
+    [string]$ExpectedWANIPFromCustomFieldName
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WANIPHistoryCustomFieldName = "wanIpHistory"   # Multi-line custom field written by this script
     function Test-IsElevated {
         $id = [System.Security.Principal.WindowsIdentity]::GetCurrent()
         $p = New-Object System.Security.Principal.WindowsPrincipal($id)
@@ -123,9 +121,6 @@ begin {
         $ExpectedWANIPFromCustomFieldName = $env:ExpectedWANIPFromCustomFieldName
     }
 
-    if ($env:WANIPHistoryCustomFieldName -and $env:WANIPHistoryCustomFieldName -ne 'null'){
-        $WANIPHistoryCustomFieldName = $env:WANIPHistoryCustomFieldName
-    }
 
     if (-not $ExpectedWANIP -and -not $ExpectedWANIPFromCustomFieldName){
         Write-Host "[Error] Please provide either the WAN IP address you are expecting this machine to have, or the name of a custom field to retrieve the expected IPs from."

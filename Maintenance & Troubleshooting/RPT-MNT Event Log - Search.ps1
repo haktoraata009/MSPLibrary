@@ -75,14 +75,12 @@ param (
     [Parameter()]
     [datetime]$StartDate,
     [Parameter()]
-    [datetime]$EndDate,
-    [Parameter()]
-    [String]$MultilineCustomField,
-    [Parameter()]
-    [String]$WysiwygCustomField = "eventLogSearchReport"
+    [datetime]$EndDate
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomField = "eventLogSearchReport"   # WYSIWYG custom field written by this script
     # Set parameters using dynamic script variables.
     if ($env:eventLogName -and $env:eventLogName -notlike "null") { $EventLogName = $env:eventLogName }
     if ($env:eventLogSource -and $env:eventLogSource -notlike "null") { $EventLogSource = $env:eventLogSource }
@@ -91,8 +89,6 @@ begin {
     if ($env:excludeEventIds -and $env:excludeEventIds -notlike "null") { $ExcludeEventIDs = $env:excludeEventIds }
     if ($env:eventStart -and $env:eventStart -notlike "null") { $StartDate = $env:eventStart }
     if ($env:eventEnd -and $env:eventEnd -notlike "null") { $EndDate = $env:eventEnd }
-    if ($env:multilineCustomFieldName -and $env:multilineCustomFieldName -notlike "null") { $MultilineCustomField = $env:multilineCustomFieldName }
-    if ($env:wysiwygCustomFieldName -and $env:wysiwygCustomFieldName -notlike "null") { $WysiwygCustomField = $env:wysiwygCustomFieldName }
 
     # Check if both StartDate and EndDate are provided and if StartDate is earlier than EndDate
     if (($StartDate -and $EndDate) -and $StartDate -gt $EndDate) {

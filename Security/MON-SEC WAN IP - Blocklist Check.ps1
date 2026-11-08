@@ -42,13 +42,13 @@ PARAMETER: -CustomField "ReplaceMeWithYourDesiredMultilineCustomField"
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [String]$CustomField = "wanIpBlocklist"
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $CustomField = "wanIpBlocklist"   # Multi-line custom field written by this script
     # If using script form variables, replace command line parameters with them.
-    if($env:multilineCustomFieldName -and $env:multilineCustomFieldName -notlike "null") { $CustomField = $env:multilineCustomFieldName }
 
     # Local administrator privileges are required to set custom fields.
     function Test-IsElevated {

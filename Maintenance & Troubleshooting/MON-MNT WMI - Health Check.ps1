@@ -98,11 +98,6 @@
     [Info] Writing results to WYSIWYG custom field 'WMIHealthCheckWYSIWYG'.
     [Info] Successfully wrote results to WYSIWYG custom field 'WMIHealthCheckWYSIWYG'.
 
-.PARAMETER MultilineCustomFieldName
-    Enter the name of a multiline custom field to report results to.
-.PARAMETER WYSIWYGCustomFieldName
-    Enter the name of a WYSIWYG custom field to report results to.
-
 .NOTES
     Minimum OS Architecture Supported: Windows 10, Windows Server 2016
     Version: 1.0
@@ -111,13 +106,12 @@
 
 [CmdletBinding()]
 param (
-    [Parameter()]
-    [string]$MultilineCustomFieldName = "wmiHealthStatus",
-    [Parameter()]
-    [string]$WYSIWYGCustomFieldName
+
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $MultilineCustomFieldName = "wmiHealthStatus"   # Multi-line custom field written by this script
     Write-Host ""
     # Check if the operating system build version is less than 10240 (Windows 10 or Windows Server 2016 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {
@@ -126,8 +120,6 @@ begin {
     }
 
     # Import script variables
-    if ($env:MultilineCustomFieldName) {$MultilineCustomFieldName = $env:MultilineCustomFieldName}
-    if ($env:WYSIWYGCustomFieldName) {$WYSIWYGCustomFieldName = $env:WYSIWYGCustomFieldName}
 
     # Validate the Multiline custom field name if provided
     if ($MultilineCustomFieldName) {

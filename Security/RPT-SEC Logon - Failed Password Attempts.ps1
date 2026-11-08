@@ -41,17 +41,15 @@ param (
     [String]$UserName,
     # Returns all relevant events, sorted by TimeGenerated
     [Parameter()]
-    [Switch]$Detailed = [System.Convert]::ToBoolean($env:detailedReport),
-    # Name of a WYSIWYG custom field to optionally save the results to.
-    [Parameter()]
-    [String]$WysiwygCustomField = "failedLogonReport"
+    [Switch]$Detailed = [System.Convert]::ToBoolean($env:detailedReport)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $WysiwygCustomField = "failedLogonReport"   # WYSIWYG custom field written by this script
 
     if ($env:usernameToCheck -and $env:usernameToCheck -notlike "null") { $UserName = $env:usernameToCheck }
     if ($env:retrieveLogsFromComputerName -and $env:retrieveLogsFromComputerName -notlike "null") { $ComputerName = $env:retrieveLogsFromComputerName }
-    if ($env:wysiwygCustomFieldName -and $env:wysiwygCustomFieldName -notlike "null") { $WysiwygCustomField = $env:wysiwygCustomFieldName }
 
     function Set-NinjaProperty {
         [CmdletBinding()]

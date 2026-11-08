@@ -6,8 +6,6 @@
 .DESCRIPTION
     Retrieve the password of the currently connected Wi-Fi network and store it in a secure custom field. Only the English language and Wi-Fi networks using WPA authentication are supported.
 
-.PARAMETER SecureCustomFieldToStorePassword
-    Enter the name of the secure custom field to store the Wi-Fi password.
 .PARAMETER EnableLocationServicesTemporarily
     If provided, the script will temporarily enable Location Services if it is disabled. Location Services will be set back to its original settings when the script completes.
 
@@ -60,12 +58,12 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$SecureCustomFieldToStorePassword = "wifiKey",
-    [Parameter()]
     [switch]$EnableLocationServicesTemporarily = [System.Convert]::ToBoolean($env:EnableLocationServicesTemporarily)
 )
 
 begin {
+    # Custom field names (case sensitive). NinjaOne finds the field by Name; no script variable needed.
+    $SecureCustomFieldToStorePassword = "wifiKey"   # Secure custom field written by this script
     # Check if the operating system build version is less than 10240 (Windows 10 minimum requirement)
     if ([System.Environment]::OSVersion.Version.Build -lt 10240) {
         Write-Host -Object "`n[Warning] The minimum OS version supported by this script is Windows 10 (10240)."
@@ -73,7 +71,6 @@ begin {
     }
 
     # Import script variable
-    if ($env:SecureCustomFieldToStorePassword) { $SecureCustomFieldToStorePassword = $env:SecureCustomFieldToStorePassword }
 
     # Error if no custom field is provided
     if ([string]::IsNullOrWhiteSpace($SecureCustomFieldToStorePassword)) {
