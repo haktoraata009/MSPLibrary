@@ -30,7 +30,7 @@ param (
     [Parameter()]
     [String[]]$DirectoriesToIgnore = ("All Users", "Default", "Default User", "Public"),
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "orphanedProfiles"
 )
 
 begin {

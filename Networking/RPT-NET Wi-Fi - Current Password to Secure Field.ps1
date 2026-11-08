@@ -60,7 +60,7 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$SecureCustomFieldToStorePassword,
+    [String]$SecureCustomFieldToStorePassword = "wifiKey",
     [Parameter()]
     [switch]$EnableLocationServicesTemporarily = [System.Convert]::ToBoolean($env:EnableLocationServicesTemporarily)
 )

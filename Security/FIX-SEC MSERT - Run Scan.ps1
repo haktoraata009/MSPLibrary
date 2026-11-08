@@ -70,7 +70,7 @@ param (
     [Parameter()]
     [Int]$Timeout = 30,
     [Parameter()]
-    [String]$CustomField,
+    [String]$CustomField = "msertScanResult",
     [Parameter()]
     [String]$DownloadURL = "https://go.microsoft.com/fwlink/?LinkId=212732"
 )

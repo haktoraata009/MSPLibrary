@@ -84,7 +84,7 @@ param (
     [Parameter()]
     [Switch]$CurrentUsers = [System.Convert]::ToBoolean($env:loggedInUsersOnly),
     [Parameter()]
-    [String]$CustomFieldName,
+    [String]$CustomFieldName = "adPasswordExpiry",
     [Parameter()]
     [switch]$ExcludeFGPPUsers = [System.Convert]::ToBoolean($env:ExcludeFineGrainedPasswordPolicyUsersOnWorkstations)
 )

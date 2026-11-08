@@ -27,7 +27,7 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "usbStorageAccess"
 )
 
 begin {

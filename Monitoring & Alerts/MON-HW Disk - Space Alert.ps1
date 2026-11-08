@@ -141,7 +141,7 @@ param (
     [Parameter()]
     [Switch]$HideNonalertingVolumesFromActivityLog = [System.Convert]::ToBoolean($env:hideNonalertingVolumesFromActivityLog),
     [Parameter()]
-    [String]$MultilineCustomField = $env:multilineCustomFieldName,
+    [String]$MultilineCustomField = $(if ($env:multilineCustomFieldName -and $env:multilineCustomFieldName -notlike "null") { $env:multilineCustomFieldName } else { "diskSpaceStatus" }),
     [Parameter()]
     [String]$WYSIWYGCustomField = $env:wysiwygCustomFieldName,
     [Parameter()]

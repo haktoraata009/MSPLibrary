@@ -57,7 +57,7 @@ PARAMETER: -CustomFieldParam "ReplaceMeWithAnyWysiwygCustomField"
 [CmdletBinding()]
 param (
     [String]$CustomFieldName,
-    [String]$WysiwygCustomFieldName
+    [String]$WysiwygCustomFieldName = "sqlInstances"
 )
 
 begin {

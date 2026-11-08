@@ -44,7 +44,7 @@ param (
     [Switch]$Detailed = [System.Convert]::ToBoolean($env:detailedReport),
     # Name of a WYSIWYG custom field to optionally save the results to.
     [Parameter()]
-    [String]$WysiwygCustomField
+    [String]$WysiwygCustomField = "failedLogonReport"
 )
 
 begin {

@@ -23,7 +23,7 @@ PARAMETER: -CustomField "ExampleInput"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "deviceDescription"
 )
 
 begin {

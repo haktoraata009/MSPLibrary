@@ -56,7 +56,7 @@ param (
     [Parameter()]
     [Switch]$IncludeDisabledUsers = [System.Convert]::ToBoolean($env:includeDisabledUsers),
     [Parameter()]
-    [String]$WysiwygCustomField
+    [String]$WysiwygCustomField = "localUsersReport"
 )
 
 begin {

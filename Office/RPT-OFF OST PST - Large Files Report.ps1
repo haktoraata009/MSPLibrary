@@ -57,7 +57,7 @@ param (
     [Parameter()]
     [String]$MultilineCustomField,
     [Parameter()]
-    [String]$WYSIWYGCustomField
+    [String]$WYSIWYGCustomField = "outlookDataFiles"
 )
 
 begin {

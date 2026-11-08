@@ -79,13 +79,13 @@ param (
     [Parameter()]
     $InactivityDaysLimit = 30,
     [Parameter()]
-    [String]$SummaryWYSIWYG,
+    [String]$SummaryWYSIWYG = "adDomainSummary",
     [Parameter()]
-    [String]$EnabledUsersWYSIWYG,
+    [String]$EnabledUsersWYSIWYG = "adEnabledUsers",
     [Parameter()]
-    [String]$DisabledUsersWYSIWYG,
+    [String]$DisabledUsersWYSIWYG = "adDisabledUsers",
     [Parameter()]
-    [String]$GroupMembershipWYSIWYG
+    [String]$GroupMembershipWYSIWYG = "adGroupMembership"
 )
 
 begin {

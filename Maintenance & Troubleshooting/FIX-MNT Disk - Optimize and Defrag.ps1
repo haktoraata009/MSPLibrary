@@ -108,7 +108,7 @@ param (
     [Parameter()]
     [string]$MultilineCustomFieldName,
     [Parameter()]
-    [string]$WysiwygCustomFieldName
+    [string]$WysiwygCustomFieldName = "diskOptimizeReport"
 )
 begin {
     Write-Host -Object ""

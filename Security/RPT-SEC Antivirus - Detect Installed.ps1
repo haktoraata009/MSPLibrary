@@ -50,13 +50,13 @@ param (
     [Parameter()]
     $DaysUntilConsideredOutdated = "7",
     [Parameter()]
-    [String]$WYSIWYGCustomField,
+    [String]$WYSIWYGCustomField = "antivirusReport",
     [Parameter()]
-    [String]$NameCustomField,
+    [String]$NameCustomField = "antivirusName",
     [Parameter()]
-    [String]$StatusCustomField,
+    [String]$StatusCustomField = "antivirusStatus",
     [Parameter()]
-    [String]$DefinitionDateAndStatusCustomField
+    [String]$DefinitionDateAndStatusCustomField = "antivirusDefinitions"
 )
 
 begin {

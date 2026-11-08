@@ -70,7 +70,7 @@ param (
     [Parameter()]
     [int]$Depth = 4,
     [Parameter()]
-    [String]$CustomField,
+    [String]$CustomField = "registrySearchResult",
     [Parameter()]
     [Switch]$Path = [System.Convert]::ToBoolean($env:searchForMatchingKeyPaths),
     [Parameter()]

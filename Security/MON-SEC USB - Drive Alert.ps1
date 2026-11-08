@@ -36,7 +36,7 @@ PARAMETER: -CustomFieldName "replaceMeWithACustomFieldName"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomFieldName
+    [String]$CustomFieldName = "usbDriveAlert"
 )
 
 begin {

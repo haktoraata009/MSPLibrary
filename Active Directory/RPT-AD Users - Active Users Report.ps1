@@ -73,7 +73,7 @@ param (
     [Parameter()]
     [String]$MultilineCustomFieldName = $env:multilineCustomFieldName,
     [Parameter()]
-    [String]$WYSIWYGCustomFieldName = $env:wysiwygCustomFieldName,
+    [String]$WYSIWYGCustomFieldName = $(if ($env:wysiwygCustomFieldName -and $env:wysiwygCustomFieldName -notlike "null") { $env:wysiwygCustomFieldName } else { "adActiveUsers" }),
     [Parameter()]
     [Switch]$ExcludeDisabledUsers = [System.Convert]::ToBoolean($env:excludeDisabledUsersFromReport)
 )

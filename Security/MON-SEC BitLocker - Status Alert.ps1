@@ -46,7 +46,7 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$BitlockerStatusMultilineCustomField = $env:bitlockerStatusMultilineCustomField,
+    [String]$BitlockerStatusMultilineCustomField = $(if ($env:bitlockerStatusMultilineCustomField -and $env:bitlockerStatusMultilineCustomField -notlike "null") { $env:bitlockerStatusMultilineCustomField } else { "bitlockerStatus" }),
     [Parameter()]
     [String]$BitlockerStatusWYSIWYGCustomField = $env:bitlockerStatusWysiwygCustomField,
     [Parameter()]
@@ -56,7 +56,7 @@ param (
     [Parameter()]
     [String]$BitlockerDisabledAllDrivesTagName = $env:bitlockerDisabledAllDrivesTagName,
     [Parameter()]
-    [String]$BitlockerKeyCustomField = $env:bitlockerKeyCustomField
+    [String]$BitlockerKeyCustomField = $(if ($env:bitlockerKeyCustomField -and $env:bitlockerKeyCustomField -notlike "null") { $env:bitlockerKeyCustomField } else { "bitlockerRecoveryKey" })
 )
 
 begin {

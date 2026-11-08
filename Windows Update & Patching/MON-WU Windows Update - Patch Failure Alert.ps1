@@ -19,10 +19,14 @@
       daysWithoutSuccessfulUpdate Integer. Alert when no update installed successfully in this many days. 0 disables. Default 35.
       ignoreDefenderDefinitions   Checkbox. Ignore Defender security intelligence (definition) updates. Default true.
       ignoreStoreApps             Checkbox. Ignore Microsoft Store app updates (e.g. 9WZDNCRFJBMP-Microsoft.WindowsStore). Default true.
-      ignoreStoreApps             Checkbox. Ignore Microsoft Store app updates (e.g. 9WZDNCRFJBMP-Microsoft.WindowsStore). Default true.
       updatesToIgnore             String. Comma-separated KB numbers or title fragments to ignore, e.g. "KB5007651,Silverlight".
-      statusCustomFieldName       Text custom field to receive a one-line status, e.g. "patchFailureStatus".
-      multilineCustomFieldName    Multi-line custom field to receive the detail, e.g. "patchFailureDetail".
+      statusCustomFieldName       String. Text custom field that receives a one-line status. Default "patchFailureStatus".
+      multilineCustomFieldName    String. Multi-line custom field that receives the detail. Default "patchFailureDetail".
+
+    Custom fields to create (names are case sensitive, Automations access Read/Write):
+      patchFailureStatus   Text
+      patchFailureDetail   Multi-line
+    Leave the two field-name variables blank to use these defaults, or enter a different field name to override.
 .EXAMPLE
     -DaysToCheck 14 -StatusCustomFieldName "patchFailureStatus"
 
@@ -67,9 +71,9 @@ param (
     [Parameter()]
     [string]$UpdatesToIgnore,
     [Parameter()]
-    [string]$StatusCustomFieldName,
+    [string]$StatusCustomFieldName = "patchFailureStatus",
     [Parameter()]
-    [string]$MultilineCustomFieldName
+    [string]$MultilineCustomFieldName = "patchFailureDetail"
 )
 
 begin {
@@ -124,13 +128,22 @@ begin {
 
     function Set-NinjaField {
         param([string]$Name, [string]$Value)
-        if (-not $Name) { return }
+        if ([string]::IsNullOrWhiteSpace($Name)) { return }
+        $Name = $Name.Trim()
         try {
             if (Get-Command -Name "Ninja-Property-Set" -ErrorAction SilentlyContinue) {
-                Ninja-Property-Set -Name $Name -Value $Value
+                # Ninja-Property-Set reports most failures as output text rather than an exception, so capture and check it.
+                $Result = Ninja-Property-Set -Name $Name -Value $Value 2>&1
+                if ("$Result" -match "Unable to find|not found|error|exception|denied") {
+                    Write-Host "[Warn] Custom field '$Name' was not updated: $Result"
+                    Write-Host "[Warn] Check the field exists with this exact name (case sensitive), is assigned to this device, and Automations access is Read/Write."
+                }
+                else {
+                    Write-Host "[Info] Custom field '$Name' updated."
+                }
             }
             else {
-                Write-Host "[Warn] Ninja-Property-Set not found; custom field '$Name' was not updated."
+                Write-Host "[Warn] Ninja-Property-Set not found; custom field '$Name' was not updated. Run this script from NinjaOne."
             }
         }
         catch {
@@ -248,7 +261,10 @@ process {
     $Detail | ForEach-Object { Write-Host $_ }
 
     Set-NinjaField -Name $StatusCustomFieldName -Value $Status
-    Set-NinjaField -Name $MultilineCustomFieldName -Value ($Detail -join "`n")
+    # Multi-line custom fields hold up to 10,000 characters.
+    $DetailText = $Detail -join "`n"
+    if ($DetailText.Length -gt 9500) { $DetailText = $DetailText.Substring(0, 9500) + "`n... (truncated)" }
+    Set-NinjaField -Name $MultilineCustomFieldName -Value $DetailText
 
     if ($Problems.Count -gt 0) { exit 1 }
     exit 0

@@ -112,7 +112,7 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [string]$MultilineCustomFieldName,
+    [string]$MultilineCustomFieldName = "wmiHealthStatus",
     [Parameter()]
     [string]$WYSIWYGCustomFieldName
 )

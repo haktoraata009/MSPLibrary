@@ -80,7 +80,7 @@ param (
     [Parameter()]
     [Int]$MaxEvents = 25,
     [Parameter()]
-    [String]$MultilineCustomField,
+    [String]$MultilineCustomField = "bsodHistory",
     [Parameter()]
     [String]$WYSIWYGCustomField,
     [Parameter()]

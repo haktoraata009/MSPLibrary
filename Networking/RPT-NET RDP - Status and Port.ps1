@@ -30,7 +30,7 @@ PARAMETER: -RdpStatusCustomFieldName "RDPStatus"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$RdpStatusCustomFieldName
+    [String]$RdpStatusCustomFieldName = "rdpStatus"
 )
 
 begin {

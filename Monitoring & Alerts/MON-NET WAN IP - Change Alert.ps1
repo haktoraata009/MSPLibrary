@@ -105,7 +105,7 @@ param (
     [string]$ExpectedWANIPFromCustomFieldName,
 
     [Parameter()]
-    [string]$WANIPHistoryCustomFieldName
+    [string]$WANIPHistoryCustomFieldName = "wanIpHistory"
 )
 
 begin {

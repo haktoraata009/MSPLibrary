@@ -82,7 +82,7 @@ param (
     [Parameter()]
     [String]$ExclusionsFromCustomField,
     [Parameter()]
-    [String]$ExportCSV,
+    [String]$ExportCSV = "remoteAccessTools",
     [Parameter()]
     [String]$ExportJSON,
     [Parameter()]

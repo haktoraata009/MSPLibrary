@@ -43,7 +43,7 @@ PARAMETER: -CustomField "ReplaceMeWithYourDesiredMultilineCustomField"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "wanIpBlocklist"
 )
 
 begin {

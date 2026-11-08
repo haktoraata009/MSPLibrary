@@ -139,7 +139,7 @@ PARAMETER: -WYSIWYGCustomField "ReplaceMeWithTheNameOfAWysiwygCustomField"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$WYSIWYGCustomField
+    [String]$WYSIWYGCustomField = "batteryHealthReport"
 )
 
 begin {

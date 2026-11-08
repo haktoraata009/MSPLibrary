@@ -119,7 +119,7 @@ param (
     [Parameter()]
     [String]$MultilineCustomFieldName,
     [Parameter()]
-    [String]$WYSIWYGCustomFieldName
+    [String]$WYSIWYGCustomFieldName = "scheduledTasksReport"
 )
 
 begin {

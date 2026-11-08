@@ -46,7 +46,7 @@ PARAMETER: -CustomField "ReplaceMeWithAnyMultilineCustomField"
 param (
     [Parameter()]
     [String]$IpAddress,
-    [String]$CustomFieldName
+    [String]$CustomFieldName = "ipConnectionMatches"
 )
 
 begin {

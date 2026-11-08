@@ -35,11 +35,11 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [string]$TextCustomFieldName
+    [string]$TextCustomFieldName = "credentialGuardStatus"
 )
 
 begin {
-    if ($env:TextCustomFieldName -and $TextCustomFieldName -ne 'null'){
+    if ($env:TextCustomFieldName -and $env:TextCustomFieldName -ne 'null'){
         $TextCustomFieldName = $env:TextCustomFieldName
     }
 

@@ -56,7 +56,7 @@ param (
     [Parameter()]
     [String]$Algorithm = "MD5",
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "fileHashMatches"
 )
 
 begin {

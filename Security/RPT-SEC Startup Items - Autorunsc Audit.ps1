@@ -103,7 +103,7 @@ PARAMETER: -SkipSleep
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField,
+    [String]$CustomField = "startupItemsReport",
     [Parameter()]
     [Switch]$Startup = [System.Convert]::ToBoolean($env:checkLogonStartupEntries),
     [Parameter()]

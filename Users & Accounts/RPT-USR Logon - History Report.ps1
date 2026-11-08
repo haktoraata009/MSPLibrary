@@ -134,7 +134,7 @@ param (
     [Parameter()]
     [string]$MultilineCustomFieldName,
     [Parameter()]
-    [string]$WYSIWYGCustomFieldName
+    [string]$WYSIWYGCustomFieldName = "logonHistory"
 )
 
 begin {

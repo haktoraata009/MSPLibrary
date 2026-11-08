@@ -171,10 +171,10 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [string]$WYSIWYGCustomFieldName,
+    [string]$WYSIWYGCustomFieldName = "reliabilityReport",
 
     [Parameter()]
-    [string]$TextCustomFieldName
+    [string]$TextCustomFieldName = "reliabilityIndex"
 )
 
 begin {

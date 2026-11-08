@@ -144,7 +144,7 @@ param (
     [Parameter()]
     $NumberOfEvents,
     [Parameter()]
-    [String]$WysiwygCustomField,
+    [String]$WysiwygCustomField = "performanceReport",
     [Parameter()]
     [Switch]$DisplayUserMessage = [System.Convert]::ToBoolean($env:displayUserMessage),
     [Parameter()]

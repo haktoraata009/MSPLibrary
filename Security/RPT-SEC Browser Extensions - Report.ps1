@@ -119,7 +119,7 @@ param (
     [Parameter()]
     [String]$MultilineCustomField,
     [Parameter()]
-    [String]$WysiwygCustomField
+    [String]$WysiwygCustomField = "browserExtensions"
 )
 
 begin {

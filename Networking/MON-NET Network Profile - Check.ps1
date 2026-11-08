@@ -27,7 +27,7 @@ PARAMETER: -CustomField "ReplaceMeWithYourDesiredCustomField"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "networkProfile"
 )
 
 begin {

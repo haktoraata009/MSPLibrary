@@ -81,7 +81,7 @@
 param (
     [Parameter()]
     [String]
-    $WYSIWYGCustomFieldName,
+    $WYSIWYGCustomFieldName = "wifiReport",
     [Parameter()]
     [Switch]
     $EnableLocationServicesTemporarily = [System.Convert]::ToBoolean($env:enableLocationServicesTemporarily)

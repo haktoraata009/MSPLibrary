@@ -64,7 +64,7 @@ param (
     [Parameter()]
     $FailedAttemptsLimit = 8,
     [Parameter()]
-    [string]$MultilineCustomFieldName,
+    [string]$MultilineCustomFieldName = "bruteForceLogons",
     [Parameter()]
     [string]$WYSIWYGCustomFieldName
 )

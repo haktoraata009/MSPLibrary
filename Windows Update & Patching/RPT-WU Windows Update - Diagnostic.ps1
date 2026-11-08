@@ -34,14 +34,14 @@ PARAMETER: -ResultsCustomField WindowsUpdate
 [CmdletBinding()]
 param (
     [int]$Days = 30,
-    [string]$ResultsCustomField
+    [string]$ResultsCustomField = "windowsUpdateDiagnostic"
 )
 
 begin {
     if ($env:Days) {
         $Days = $env:Days
     }
-    if ($env:resultscustomfield -notlike "null") {
+    if ($env:resultscustomfield -and $env:resultscustomfield -notlike "null") {
         $ResultsCustomField = $env:resultscustomfield
     }
     function Test-IsElevated {

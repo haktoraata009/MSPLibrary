@@ -105,7 +105,7 @@ param (
     [Parameter()]
     [String]$MultilineCustomField,
     [Parameter()]
-    [String]$WysiwygCustomField,
+    [String]$WysiwygCustomField = "speedTestReport",
     [Parameter()]
     [Switch]$Append = [System.Convert]::ToBoolean($env:appendToCustomField),
     [Parameter()]

@@ -31,9 +31,9 @@ PARAMETER: -TenantInfoCustomFieldName "ReplaceMe"
 [CmdletBinding()]
 param (
     [Parameter()]
-    [String]$DeviceStateCustomFieldName,
+    [String]$DeviceStateCustomFieldName = "entraJoinType",
     [Parameter()]
-    [String]$TenantInfoCustomFieldName
+    [String]$TenantInfoCustomFieldName = "entraTenantInfo"
 )
 
 begin {

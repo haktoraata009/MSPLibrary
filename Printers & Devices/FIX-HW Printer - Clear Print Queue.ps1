@@ -22,7 +22,7 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [string]$CustomFieldName
+    [string]$CustomFieldName = "printQueueResult"
 )
 
 begin {

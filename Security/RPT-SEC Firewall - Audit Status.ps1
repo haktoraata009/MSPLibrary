@@ -46,7 +46,7 @@ param (
     [Parameter()]
     [Switch]$Public = [System.Convert]::ToBoolean($env:publicProfile),
     [Parameter()]
-    [String]$CustomField
+    [String]$CustomField = "firewallStatus"
 )
 begin {
     # If script form variables are used, replace the command-line parameters with their values.

@@ -52,7 +52,11 @@ param (
     [Parameter()]
     [Switch]$ComponentCleanup = [System.Convert]::ToBoolean($env:componentCleanup),
     [Parameter()]
-    [Switch]$ForceReboot = [System.Convert]::ToBoolean($env:forceReboot)
+    [Switch]$ForceReboot = [System.Convert]::ToBoolean($env:forceReboot),
+    [Parameter()]
+    [String]$MultilineCustomFieldName = "dismRepairResult",
+    [Parameter()]
+    [String]$WYSIWYGCustomFieldName
 )
 
 begin {
@@ -359,6 +363,32 @@ begin {
         $p.IsInRole([System.Security.Principal.WindowsBuiltInRole]'544')
     }
 
+    function Set-DismCustomField {
+        param([String]$Text)
+        # Writes the DISM result to the custom fields. The field names are case sensitive.
+        if ([String]::IsNullOrWhiteSpace($Text)) { $Text = "No DISM output was captured." }
+        if ($MultilineCustomFieldName) {
+            $Value = $Text.Trim()
+            if ($Value.Length -gt 9500) { $Value = $Value.Substring($Value.Length - 9500) }
+            try {
+                Ninja-Property-Set -Name $MultilineCustomFieldName.Trim() -Value $Value -ErrorAction Stop
+                Write-Host -Object "[Info] Saved the DISM result to the custom field '$MultilineCustomFieldName'."
+            } catch {
+                Write-Host -Object "[Error] $($_.Exception.Message)"
+                Write-Host -Object "[Error] Failed to write to the custom field '$MultilineCustomFieldName'. Check the field exists with this exact name and Automations access is Read/Write."
+            }
+        }
+        if ($WYSIWYGCustomFieldName) {
+            $Html = "<pre>$([System.Net.WebUtility]::HtmlEncode($Text.Trim()))</pre>"
+            try {
+                $Html | Ninja-Property-Set-Piped -Name $WYSIWYGCustomFieldName.Trim() -ErrorAction Stop
+                Write-Host -Object "[Info] Saved the DISM result to the custom field '$WYSIWYGCustomFieldName'."
+            } catch {
+                Write-Host -Object "[Error] $($_.Exception.Message)"
+                Write-Host -Object "[Error] Failed to write to the custom field '$WYSIWYGCustomFieldName'."
+            }
+        }
+    }
     if (!$ExitCode) {
         $ExitCode = 0
     }
@@ -558,6 +588,7 @@ process {
             Write-Host -Object "[Warning] An additional error log may be found at '$($StandardErrorFile.FullName)'."
         }
 
+        Set-DismCustomField -Text "[Warning] DISM still running after the timeout.$([Environment]::NewLine)$CleanedUpOutput"
         exit $ExitCode
     }
 
@@ -577,6 +608,7 @@ process {
         }
     }
 
+    Set-DismCustomField -Text $CleanedUpOutput
     exit $ExitCode
 }
 end {
