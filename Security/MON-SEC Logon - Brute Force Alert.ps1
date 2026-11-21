@@ -13,6 +13,7 @@
     Enter the number of hours back in time to look through in the event log. Value must be between 1 and 24 (inclusive).
 .PARAMETER FailedAttemptsLimit
     Enter the number of failed logon attempts that will trigger the alert. Value must be between 1 and 100 (inclusive).
+
 .EXAMPLE
     -AlertMethod "Per User" -InTheLastXHours 24 -FailedAttemptsLimit 10
 
@@ -44,8 +45,11 @@
 
 .NOTES
     Minimum OS Architecture Supported: Windows 10, Windows Server 2016
-    Version: 2.0
-    Release Notes: Brought up to current standards, renamed script and parameters, added alert method parameter,
+    Version: 2.1
+    Release Notes: 2.1 (2026-11-10) - Custom fields are now written on every run. No attempts found writes
+                   "Not found in past hour (last checked <timestamp>)". Attempts found writes the detection timestamp
+                   plus the attempt list. Added the missing Set-NinjaProperty helper (the field write failed before).
+                   2.0 - Brought up to current standards, renamed script and parameters, added alert method parameter,
                    added multiline and WYSIWYG custom field support, improved support for non-English languages,
                    improved error handling and input validation.
 #>
@@ -213,6 +217,39 @@ begin {
         $p.IsInRole([System.Security.Principal.WindowsBuiltInRole]'544')
     }
 
+    # Write a value to a NinjaOne custom field (multiline or WYSIWYG) through the NinjaOne agent CLI
+    function Set-NinjaProperty {
+        [CmdletBinding()]
+        param (
+            [Parameter(Mandatory = $True)]
+            [string]$Name,
+            [Parameter(Mandatory = $True)]
+            $Value,
+            [Parameter()]
+            [int]$MaxLength = 10000
+        )
+
+        # Flatten lists / objects into one string
+        $Text = ($Value | Out-String).Trim()
+        if ([string]::IsNullOrWhiteSpace($Text)) {
+            throw "No value to write to the '$Name' custom field."
+        }
+
+        # Keep the value under the custom field character limit
+        if ($Text.Length -gt $MaxLength) {
+            $Suffix = "`n... (truncated, see the script output for the full list)"
+            $Text = $Text.Substring(0, $MaxLength - $Suffix.Length) + $Suffix
+        }
+
+        if (-not (Get-Command -Name "Ninja-Property-Set-Piped" -ErrorAction SilentlyContinue)) {
+            throw "The NinjaOne agent command 'Ninja-Property-Set-Piped' is not available. Run this script from NinjaOne."
+        }
+
+        $Result = $Text | Ninja-Property-Set-Piped -Name $Name 2>&1
+        if ($Result.Exception) { throw $Result }
+        if ($Result -match "error|not found|invalid") { throw ($Result | Out-String).Trim() }
+    }
+
     if (!$ExitCode) {
         $ExitCode = 0
     }
@@ -355,6 +392,22 @@ process {
         }
     }
 
+    # Timestamp and period text used in the console output and in the custom fields
+    $RunTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $PeriodText = if ($InTheLastXHours -eq 1) { "past hour" } else { "past $InTheLastXHours hours" }
+    $NotFoundText = "Not found in $PeriodText (last checked $RunTime)"
+    if ($BruteForceAttempts) {
+        $AccountCount = ($BruteForceAttempts | Select-Object -Property Account -Unique | Measure-Object).Count
+        switch ($AlertMethod) {
+            "Per User" {
+                $FoundText = "Brute force attempts found at $RunTime - $AccountCount account(s) with $FailedAttemptsLimit or more failed logon attempts in the $PeriodText."
+            }
+            "Cumulative" {
+                $FoundText = "Brute force attempts found at $RunTime - $FailedAttemptsCumulativeCount total failed logon attempts across all users (limit $FailedAttemptsLimit) in the $PeriodText."
+            }
+        }
+    }
+
     # If any brute force attempts are found, alert and output the list of brute force attempts
     if ($BruteForceAttempts) {
         # Output the alert message based on the alert method
@@ -371,6 +424,11 @@ process {
     }
     else {
         Write-Host "[Info] No brute force attempts that meet or exceed the $($AlertMethod.ToLower()) limit of $FailedAttemptsLimit failed login attempts have been detected in the last $InTheLastXHours hour(s)."
+        Write-Host "[Info] $NotFoundText"
+    }
+
+    if (-not $MultilineCustomFieldName -and -not $WYSIWYGCustomFieldName) {
+        Write-Host "`n[Warning] No custom field name is set. Set `$MultilineCustomFieldName at the top of the begin block."
     }
 
     # If provided, populate the multiline custom field
@@ -380,21 +438,12 @@ process {
             # Initialize a list to hold the multiline text
             $MultilineText = New-Object System.Collections.Generic.List[string]
 
-            # Add the alert message based on the alert method
-            switch ($AlertMethod) {
-                "Per User" {
-                    $MultilineText.Add("[Alert] Script results at $(Get-Date -Format G) detected $(($BruteForceAttempts | Select-Object -Property Account -Unique | Measure-Object).Count) account(s) with $FailedAttemptsLimit or more failed logon attempts in the past $InTheLastXHours hour(s).`n`n")
-                }
-                "Cumulative" {
-                    $MultilineText.Add("[Alert] Script results at $(Get-Date -Format G) detected $FailedAttemptsCumulativeCount total failed logon attempts across all users, which exceeds the limit of $FailedAttemptsLimit, in the past $InTheLastXHours hour(s).`n`n")
-                }
-            }
-
-            # Add the list of brute force attempts
+            # Add the timestamped alert message, then the list of brute force attempts
+            $MultilineText.Add("[Alert] $FoundText`n")
             $MultilineText.Add(($BruteForceAttempts | Format-List | Out-String).Trim())
         }
         else {
-            $MultilineText = "No brute force attempts that meet or exceed the $($AlertMethod.ToLower()) limit of $FailedAttemptsLimit failed login attempts have been detected in the last $InTheLastXHours hour(s)"
+            $MultilineText = $NotFoundText
         }
 
         try {
@@ -419,15 +468,8 @@ process {
             # Bold the table headers for better visibility
             $HtmlTable = $HtmlTable -replace "<th>", "<th><strong>" -replace "</th>", "</strong></th>"
 
-            # Create the alert message based on the alert method
-            switch ($AlertMethod) {
-                "Per User" {
-                    $WYSIWYGAlertMessage = "Script results at $(Get-Date -Format G) detected $(($BruteForceAttempts | Select-Object -Property Account -Unique | Measure-Object).Count) account(s) with $FailedAttemptsLimit or more failed logon attempts in the past $InTheLastXHours hour(s).`n`n"
-                }
-                "Cumulative" {
-                    $WYSIWYGAlertMessage = "Script results at $(Get-Date -Format G) detected $FailedAttemptsCumulativeCount total failed logon attempts across all users, which exceeds the limit of $FailedAttemptsLimit, in the past $InTheLastXHours hour(s).`n`n"
-                }
-            }
+            # Timestamped alert message
+            $WYSIWYGAlertMessage = $FoundText
 
             # Wrap the table in a card layout
             $HtmlTable = "<div class='card flex-grow-1'>
@@ -443,12 +485,12 @@ process {
             $HtmlTable = $HtmlTable -replace "^", "<p style='font-size:1em'><i class='fa-solid fa-circle-exclamation' style='color: #ff0000;'></i>  $WYSIWYGAlertMessage</p>`n"
         }
         else {
-            $HtmlTable = "<p>No brute force attempts that meet or exceed the $($AlertMethod.ToLower()) limit of $FailedAttemptsLimit failed login attempts have been detected in the last $InTheLastXHours hour(s).</p>"
+            $HtmlTable = "<p><i class='fa-solid fa-circle-check' style='color: #26a644;'></i>  $NotFoundText</p>"
         }
 
         try {
             Write-Host "[Info] Attempting to set the '$WYSIWYGCustomFieldName' WYSIWYG custom field."
-            Set-NinjaProperty -Name $WYSIWYGCustomFieldName -Value $HtmlTable -ErrorAction Stop
+            Set-NinjaProperty -Name $WYSIWYGCustomFieldName -Value $HtmlTable -MaxLength 200000 -ErrorAction Stop
             Write-Host "[Info] Successfully set the '$WYSIWYGCustomFieldName' WYSIWYG custom field."
         }
         catch {
