@@ -5,6 +5,13 @@
     Returns the number of drives in the Unlocked and FullyDecrypted state.
 .DESCRIPTION
     Returns the number of drives in the Unlocked and FullyDecrypted state.
+
+    This script writes NO custom field and has no script variables. Its result is the
+    activity log line "Unencrypted Disk Count: <n>" and the exit code:
+      0 = no unencrypted fixed drive, 1 = not run elevated, 2 = one or more unencrypted drives.
+    Use it as a monitor/condition script (alert on exit code 2).
+
+    To fill the bitlockerSecureBootStatus custom field, run RPT-SEC Credential Guard - Status.
 .EXAMPLE
     No parameters needed.
 .EXAMPLE
@@ -15,8 +22,8 @@
 .NOTES
     Minimum OS Architecture Supported: Windows 7, Windows Server 2012
     Uses manage-bde.exe or Get-BitLockerVolume depending on the version of PowerShell
-    Version: 1.1
-    Release Notes: Renamed script
+    Version: 1.2
+    Release Notes: 1.1 Renamed script. 1.2 Header states it writes no custom field.
 .COMPONENT
     Misc
 #>
@@ -97,6 +104,7 @@ process {
     
     # Return a count of Unlocked drives
     Write-Host "Unencrypted Disk Count: $UnencryptedDisks"
+    Write-Host "[Info] This script writes no custom field. For bitlockerSecureBootStatus, run RPT-SEC Credential Guard - Status."
     # Return an exit code of 2 if more than 1 disk is unencrypted
     if ($UnencryptedDisks -gt 0) {
         exit 2

@@ -20,11 +20,16 @@
       - Reports Secure Boot, TPM and BitLocker on the OS drive (protection status,
         encryption %, key protector TYPES only - never the recovery password).
 
-    Runs as SYSTEM under NinjaOne. No script variables.
+    Runs as SYSTEM under NinjaOne. No script variables: do not add any under Script Variables
+    in NinjaOne. The field names are fixed in the begin block below ($TextCustomFieldName and
+    $BitLockerCustomFieldName). Change them there only if your fields have other names.
 
     Custom fields to create (Text, Automations Read/Write):
       credentialGuardStatus - Credential Guard, config (UEFI lock), VBS and HVCI summary
       bitlockerSecureBootStatus - BitLocker on the OS drive, Secure Boot and TPM summary
+
+    This is the only script that writes these two fields. MON-SEC BitLocker - Unencrypted
+    Disk Alert writes no custom field (it alerts by exit code only).
 
 .EXAMPLE
     (No parameters)
@@ -40,9 +45,10 @@
 
 .NOTES
     Minimum OS: Windows 10, Windows 11, Windows Server 2016+
-    Version: 2.0
+    Version: 2.0.1
     Release Notes: Edition gate no longer blocks reporting; GPO/Intune config paths;
                    VBS/HVCI/Secure Boot/TPM/BitLocker added; custom field name typo fixed.
+                   2.0.1: header notes on fixed field names and which script writes the fields.
 #>
 
 [CmdletBinding()]
