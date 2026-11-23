@@ -60,7 +60,7 @@ Earlier versions had field-name script variables (for example `Custom Field Name
 | `antivirusDefinitions` | Text | RPT-SEC Antivirus - Detect Installed | Definition date and whether out of date |
 | `browserExtensions` | WYSIWYG | RPT-SEC Browser Extensions - Report | Browser extensions table |
 | `credentialGuardStatus` | Text | RPT-SEC Credential Guard - Status | Credential Guard, config (UEFI lock), VBS and HVCI |
-| `bitlockerSecureBootStatus` | Text | RPT-SEC Credential Guard - Status | BitLocker on the OS drive, Secure Boot and TPM |
+| `bitlockerSecureBootStatus` | Text | RPT-SEC Credential Guard - Status, MON-SEC BitLocker - Unencrypted Disk Alert | BitLocker on the OS drive, Secure Boot and TPM |
 | `firewallStatus` | Text | RPT-SEC Firewall - Audit Status | Firewall profile status |
 | `failedLogonReport` | WYSIWYG | RPT-SEC Logon - Failed Password Attempts | Failed password attempts |
 | `remoteAccessTools` | Multi-line | RPT-SEC Remote Access Tools - Report | Remote access tools found (CSV) |

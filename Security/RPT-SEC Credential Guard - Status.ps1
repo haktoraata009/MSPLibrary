@@ -28,8 +28,10 @@
       credentialGuardStatus - Credential Guard, config (UEFI lock), VBS and HVCI summary
       bitlockerSecureBootStatus - BitLocker on the OS drive, Secure Boot and TPM summary
 
-    This is the only script that writes these two fields. MON-SEC BitLocker - Unencrypted
-    Disk Alert writes no custom field (it alerts by exit code only).
+    MON-SEC BitLocker - Unencrypted Disk Alert v2.0 also writes bitlockerSecureBootStatus,
+    with the same functions and the same text format, so the field reads the same whichever
+    script ran last. Keep Get-BitLockerState, Get-SecureBootState, Get-TpmState and
+    Set-NinjaTextField identical in both scripts.
 
 .EXAMPLE
     (No parameters)
@@ -48,7 +50,8 @@
     Version: 2.0.1
     Release Notes: Edition gate no longer blocks reporting; GPO/Intune config paths;
                    VBS/HVCI/Secure Boot/TPM/BitLocker added; custom field name typo fixed.
-                   2.0.1: header notes on fixed field names and which script writes the fields.
+                   2.0.1: header notes on fixed field names and on the second script that
+                   writes bitlockerSecureBootStatus.
 #>
 
 [CmdletBinding()]
