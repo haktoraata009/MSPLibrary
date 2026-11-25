@@ -13,9 +13,7 @@ Earlier versions had field-name script variables (for example `Custom Field Name
 - Role custom fields must be added to the device role. Global custom fields work on every device.
 - If the activity log says `Unable to find ninjarmm-cli.exe`, the NinjaOne agent on that device is damaged. Test on another device.
 
-## Fields written through the API
-
-Scripts that run on one management device and call the NinjaOne API write fields through the API, not with `Ninja-Property-Set`. For those fields set the **API** permission to **Read/Write** (Automations Read Only is enough). Fields that MON-SYS Lifecycle - Refresh Opportunities to Halo reads (`osSupportStatus`, `win11Ready`, `warrantyEndDate`, `warrantyStartDate`) need **API** permission **Read Only** or higher.
+Archived API scripts and their fields are listed in [_Archive/NinjaOne API](_Archive/NinjaOne%20API).
 
 ## Fields by script
 
@@ -46,18 +44,6 @@ Scripts that run on one management device and call the NinjaOne API write fields
 | `adGroupMembership` | WYSIWYG | RPT-AD Domain - Audit Report | Group membership table |
 | `adActiveUsers` | WYSIWYG | RPT-AD Users - Active Users Report | Active users summary and table |
 | `batteryHealthReport` | WYSIWYG | RPT-HW Battery - Health Report | Battery health report |
-| `warrantyEndDate` | Text | RPT-HW Warranty - NinjaOne Dates to Custom Field | Warranty end date from NinjaOne, yyyy-MM-dd. Written through the API: set the field's API permission to Read/Write |
-| `warrantyStartDate` | Text | RPT-HW Warranty - NinjaOne Dates to Custom Field | Warranty start date from NinjaOne, yyyy-MM-dd (device age). API permission Read/Write |
-| `ninjaApiClientId` | Secure | All NinjaOne API scripts (warranty, patch and AV, stale devices, lifecycle opportunities, onboarding) | Input: NinjaOne API client ID. Management device only. Automations Read Only, API None |
-| `ninjaApiClientSecret` | Secure | All NinjaOne API scripts (warranty, patch and AV, stale devices, lifecycle opportunities, onboarding) | Input: NinjaOne API client secret. Management device only. Automations Read Only, API None |
-| `haloApiUrl` | Text | All Halo API scripts (stale devices, lifecycle opportunities, onboarding) | Input: Halo web address only, for example https://yourcompany.halopsa.com. Management device only |
-| `haloApiTenant` | Text | All Halo API scripts | Input, optional: Halo tenant name, only if Halo gave you one. Management device only |
-| `haloApiClientId` | Secure | All Halo API scripts | Input: Halo API application client ID. Management device only. Automations Read Only, API None |
-| `haloApiClientSecret` | Secure | All Halo API scripts | Input: Halo API application client secret. Management device only. Automations Read Only, API None |
-| `patchStatus` | Text | RPT-SEC Patch and AV - NinjaOne Status to Custom Field | OK/WARN/FAIL: patches installed in 30 days, pending, failed. API permission Read/Write |
-| `avStatus` | Text | RPT-SEC Patch and AV - NinjaOne Status to Custom Field | OK/WARN/FAIL: antivirus product, state, definitions, threats in 30 days. API permission Read/Write |
-| `lastSeenStatus` | Text | MON-SYS Stale Devices - NinjaOne Last Seen to Halo | OK/WARN/FAIL: online, or offline over 30 / 90 days with last seen date. API permission Read/Write |
-| `lifecycleFlag` | Text | MON-SYS Lifecycle - Refresh Opportunities to Halo | Reasons already raised in Halo, for example `Raised 2026-11-25: OS, WARRANTY`, or `None`. API permission Read/Write |
 | `hardwareid` | Multi-line | RPT-INT Autopilot - Hardware ID to Custom Field | Autopilot hardware hash |
 | `entraJoinType` | Text | RPT-M365 Entra Join - Device Status | Join type, e.g. Microsoft Entra Joined |
 | `entraTenantInfo` | Multi-line | RPT-M365 Entra Join - Device Status | Tenant name, tenant ID and device ID |

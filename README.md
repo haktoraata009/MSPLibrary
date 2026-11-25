@@ -23,6 +23,7 @@ Most endpoint scripts are written for **NinjaOne** but run fine on their own. Ea
 | [Users & Accounts](Users%20%26%20Accounts) | Local users, admins, profiles and sessions |
 | [Windows Configuration](Windows%20Configuration) | Workstation baseline settings |
 | [Windows Update & Patching](Windows%20Update%20%26%20Patching) | Update controls and patch-failure alerting |
+| [_Archive](_Archive/NinjaOne%20API) | Archived scripts, not in use (NinjaOne API scripts for a management device) |
 
 ## Naming convention
 
