@@ -39,8 +39,10 @@
 .NOTES
     Minimum OS: Windows 10, Windows Server 2016+
     Run as: System, on one management device
-    Version: 1.0
-    Release Notes: 1.0 (2026-11-25) First version. Uses GET /v2/device/{id}?expand=warranty and
+    Version: 1.1
+    Release Notes: 1.1 (2026-11-25) Fix: on PowerShell 5.1 the device list came back empty
+                   ("0 devices found") because the API response array was returned directly.
+                   1.0 (2026-11-25) First version. Uses GET /v2/device/{id}?expand=warranty and
                    PATCH /v2/device/{id}/custom-fields.
 #>
 
@@ -78,7 +80,9 @@ begin {
                     $params.Body = ($Body | ConvertTo-Json -Compress -Depth 5)
                     $params.ContentType = 'application/json'
                 }
-                return Invoke-RestMethod @params
+                # Assign first: PowerShell 5.1 loses JSON arrays when Invoke-RestMethod is returned directly.
+                $response = Invoke-RestMethod @params
+                return $response
             }
             catch {
                 $status = $null
