@@ -42,6 +42,10 @@ Earlier versions had field-name script variables (for example `Custom Field Name
 | `adGroupMembership` | WYSIWYG | RPT-AD Domain - Audit Report | Group membership table |
 | `adActiveUsers` | WYSIWYG | RPT-AD Users - Active Users Report | Active users summary and table |
 | `batteryHealthReport` | WYSIWYG | RPT-HW Battery - Health Report | Battery health report |
+| `warrantyEndDate` | Text | RPT-HW Warranty - NinjaOne Dates to Custom Field | Warranty end date from NinjaOne, yyyy-MM-dd. Written through the API: set the field's API permission to Read/Write |
+| `warrantyStartDate` | Text | RPT-HW Warranty - NinjaOne Dates to Custom Field | Warranty start date from NinjaOne, yyyy-MM-dd (device age). API permission Read/Write |
+| `ninjaApiClientId` | Secure | RPT-HW Warranty - NinjaOne Dates to Custom Field | Input: NinjaOne API client ID. Management device only. Automations Read Only, API None |
+| `ninjaApiClientSecret` | Secure | RPT-HW Warranty - NinjaOne Dates to Custom Field | Input: NinjaOne API client secret. Management device only. Automations Read Only, API None |
 | `hardwareid` | Multi-line | RPT-INT Autopilot - Hardware ID to Custom Field | Autopilot hardware hash |
 | `entraJoinType` | Text | RPT-M365 Entra Join - Device Status | Join type, e.g. Microsoft Entra Joined |
 | `entraTenantInfo` | Multi-line | RPT-M365 Entra Join - Device Status | Tenant name, tenant ID and device ID |
@@ -70,6 +74,10 @@ Earlier versions had field-name script variables (for example `Custom Field Name
 | `performanceReport` | WYSIWYG | RPT-SYS Performance - System Check | Performance data |
 | `activePowerPlan` | Text | RPT-SYS Power Plan - Report | Active power plan |
 | `activePowerSettings` | Multi-line | RPT-SYS Power Plan - Report | Power settings |
+| `osSupportStatus` | Text | RPT-SYS Lifecycle - OS and Hardware Status | OK/WARN/FAIL: OS, version, build and end-of-servicing date (Windows 10 ESU checked) |
+| `win11Ready` | Text | RPT-SYS Lifecycle - OS and Hardware Status | OK/WARN/FAIL: Windows 11 hardware readiness (appraiser, TPM, UEFI, RAM, disk, CPU) |
+| `hardwareSummary` | Text | RPT-SYS Lifecycle - OS and Hardware Status | OK/WARN/FAIL: make, model, CPU, RAM, system disk type and size |
+| `diskSpaceSummary` | Text | RPT-SYS Lifecycle - OS and Hardware Status | OK/WARN/FAIL: free space per fixed volume |
 | `reliabilityIndex` | Text | RPT-SYS Reliability Index - Report | Latest reliability score |
 | `reliabilityReport` | WYSIWYG | RPT-SYS Reliability Index - Report | Daily reliability table |
 | `LocalAdmins` | Text | RPT-USR Local Admins - Report | Local administrators |
