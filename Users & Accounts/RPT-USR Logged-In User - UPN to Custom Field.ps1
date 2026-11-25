@@ -1,5 +1,14 @@
+# RPT-USR Logged-In User - UPN to Custom Field
+# Finds the signed-in user's UPN and writes it to the Text custom field lastLoggedInUPN,
+# so Halo can match the device to the user's email address. Run as System. No script variables.
+#
+# Version: 2.0
+# Release Notes: 2.0 (2026-11-25) Custom field renamed from lastLoggedInUser to lastLoggedInUPN.
+#                lastLoggedInUser clashed with the native NinjaOne/Halo last-logged-in-user sync,
+#                so the UPN never reached Halo. Exit 1 when the custom field write fails.
+
 # Custom field name (case sensitive). NinjaOne finds the field by Name; no script variable needed.
-$CustomFieldName = 'lastLoggedInUser'   # Text custom field written by this script
+$CustomFieldName = 'lastLoggedInUPN'   # Text custom field written by this script
 
 $script:source = @"
 using Microsoft.Win32.SafeHandles;
@@ -1074,4 +1083,11 @@ if (-not (Test-RoutableEmail $Best.Value)) {
 }
 
 Write-Host "Setting '$CustomFieldName' to '$($Best.Value)' (matched via $($Best.Source), $($Best.Kind))."
-Ninja-Property-Set $CustomFieldName $Best.Value
+$SetResult = Ninja-Property-Set $CustomFieldName $Best.Value 2>&1
+if ($SetResult.Exception) {
+    Write-Host "[Error] Failed to set custom field '$CustomFieldName'. Check it exists as a Text field with Automations Read/Write."
+    Write-Host "$($SetResult.Exception.Message)"
+    exit 1
+}
+Write-Host "[Info] Set '$CustomFieldName'."
+exit 0

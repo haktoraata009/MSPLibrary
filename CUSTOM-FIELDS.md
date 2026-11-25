@@ -74,7 +74,7 @@ Earlier versions had field-name script variables (for example `Custom Field Name
 | `reliabilityReport` | WYSIWYG | RPT-SYS Reliability Index - Report | Daily reliability table |
 | `LocalAdmins` | Text | RPT-USR Local Admins - Report | Local administrators |
 | `localUsersReport` | WYSIWYG | RPT-USR Local Users - Report | Local users table |
-| `lastLoggedInUser` | Text | RPT-USR Logged-In User - UPN to Custom Field | Signed-in user's UPN |
+| `lastLoggedInUPN` | Text | RPT-USR Logged-In User - UPN to Custom Field | Signed-in user's UPN. Renamed from `lastLoggedInUser` (2026-11-25): that name clashes with the native NinjaOne/Halo last logged-in user sync |
 | `logonHistory` | WYSIWYG | RPT-USR Logon - History Report | Logon history table |
 | `orphanedProfiles` | WYSIWYG | RPT-USR Profiles - Orphaned Profiles | Orphaned profiles |
 | `TotalUsersProfileSize` | Text | RPT-USR Profiles - Size Report | Total profile size |
